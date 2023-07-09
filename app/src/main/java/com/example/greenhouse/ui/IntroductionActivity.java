@@ -11,6 +11,7 @@ import com.example.greenhouse.R;
 
 public class IntroductionActivity extends AppCompatActivity {
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,12 +28,12 @@ public class IntroductionActivity extends AppCompatActivity {
             }
         });
 
-       /* goToRegisterButton.setOnClickListener(new View.OnClickListener() {
+        goToRegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Introduction.this, Register.class);
+                Intent intent = new Intent(IntroductionActivity.this, RegisterActivity.class);
                 startActivity(intent);
             }
-        });*/
+        });
     }
 }

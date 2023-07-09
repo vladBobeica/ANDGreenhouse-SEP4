@@ -1,11 +1,13 @@
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.RegisterActivity" >
 
     <ImageView
-        android:id="@+id/goBackButtonLogin"
+        android:id="@+id/goBackButtonRegister"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="16dp"
@@ -19,25 +21,25 @@
         android:id="@+id/imageView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/login_banner" />
+        app:srcCompat="@drawable/signup_banner" />
 
     <TextView
         android:id="@+id/textView12"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Unlock the Possibilities: Enter Your Green House Oasis"
-        android:textColor="#000000"
+        android:text="Unlock a World of Possibilities: Join Our Community and Embrace Smart Living!"
         android:textAlignment="center"
+        android:textColor="#000000"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView7" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView7"
+        android:layout_margin="10dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -52,7 +54,18 @@
         app:layout_constraintTop_toBottomOf="@+id/textView12">
 
         <EditText
-            android:id="@+id/emailFieldLogin"
+            android:id="@+id/nameFieldRegister"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:hint="Name..."
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            />
+
+        <EditText
+            android:id="@+id/emailFieldRegister"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:hint="Email..."
@@ -63,7 +76,7 @@
             />
 
         <EditText
-            android:id="@+id/passwordFieldLogin"
+            android:id="@+id/passwordFieldRegister"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:hint="Password..."
@@ -74,16 +87,14 @@
             android:inputType="textPassword"/>
 
         <Button
-            android:id="@+id/loginButton"
+            android:id="@+id/registerButton"
             android:layout_width="match_parent"
             android:layout_height="55dp"
-            android:text="Login"
+            android:text="Register"
             android:textColor="#ffffff"
             android:textSize="24sp"
             android:textStyle="bold"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="12dp"/>
-
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
-

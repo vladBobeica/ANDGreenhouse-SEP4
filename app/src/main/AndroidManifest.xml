@@ -20,11 +20,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.LoginActivity"
-           >
-
+            android:name=".ui.LoginActivity">
         </activity>
-
+        <activity
+            android:name=".ui.RegisterActivity">
+        </activity>
         <activity
             android:name=".MainActivity" />
 

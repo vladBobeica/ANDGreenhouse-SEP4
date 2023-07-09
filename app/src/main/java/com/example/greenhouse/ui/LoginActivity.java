@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,6 +28,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class LoginActivity extends AppCompatActivity {
     private EditText editTextEmail, editTextPassword;
     private Button buttonLogin;
+    private ImageView goBackButton;
     private ApiService apiService;
     private UserRepository userRepository;
 
@@ -34,10 +36,10 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        editTextEmail = findViewById(R.id.emailEdit);
-        editTextPassword = findViewById(R.id.passwordEdit);
-        buttonLogin = findViewById(R.id.LoginButton);
+        goBackButton = findViewById(R.id.goBackButtonLogin);
+        editTextEmail = findViewById(R.id.emailFieldLogin);
+        editTextPassword = findViewById(R.id.passwordFieldLogin);
+        buttonLogin = findViewById(R.id.loginButton);
 
         boolean useMockApi = true;
 
@@ -48,6 +50,15 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         userRepository = new UserRepository(apiService);
+
+        goBackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, IntroductionActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,7 +76,7 @@ public class LoginActivity extends AppCompatActivity {
                             String token = loginResponse.getToken();
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
-                            finish(); // Finish LoginActivity to prevent going back
+                            finish();
                         } else {
                             Toast.makeText(LoginActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
                         }

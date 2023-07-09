@@ -2,9 +2,13 @@ package com.example.greenhouse.api;
 
 import com.example.greenhouse.model.LoginRequest;
 import com.example.greenhouse.model.LoginResponse;
+import com.example.greenhouse.model.RegisterRequest;
+import com.example.greenhouse.model.RegisterResponse;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.Request;
 import okhttp3.ResponseBody;
@@ -15,135 +19,60 @@ import retrofit2.Response;
 
 public class MockApiService implements ApiService {
 
-    private List<UserAccount> userAccounts;
+    private Map<String, UserAccount> userAccounts;
+    private List<String> registeredEmails;
 
     public MockApiService() {
-        // Create a list of user accounts
-        userAccounts = new ArrayList<>();
-        userAccounts.add(new UserAccount("one@gmail.com", "111"));
-        userAccounts.add(new UserAccount("vlad@gmail.com", "1111"));
-        // Add more user accounts as needed
+        userAccounts = new HashMap<>();
+        registeredEmails = new ArrayList<>();
+
+        userAccounts.put("one@gmail.com", new UserAccount("one@gmail.com", "111"));
+        userAccounts.put("vlad@gmail.com", new UserAccount("vlad@gmail.com", "1111"));
+        userAccounts.put("alin@gmail.com", new UserAccount("alin@gmail.com", "123"));
     }
 
     @Override
     public Call<LoginResponse> login(LoginRequest loginRequest) {
-        // Extract the email and password from the login request
         String email = loginRequest.getEmail();
         String password = loginRequest.getPassword();
 
-        // Check if the provided credentials match any user account
-        for (UserAccount account : userAccounts) {
-            if (account.getEmail().equals(email) && account.getPassword().equals(password)) {
-                // Create a mock response for successful login
-                LoginResponse mockResponse = new LoginResponse();
-                mockResponse.setToken("mock_token");
+        UserAccount userAccount = userAccounts.get(email);
 
-                // Create a dummy Call object and immediately execute the callback
-                Call<LoginResponse> call = new Call<LoginResponse>() {
-                    @Override
-                    public Response<LoginResponse> execute() {
-                        return null; // Not used in this case
-                    }
+        if (userAccount != null && userAccount.getPassword().equals(password)) {
+            LoginResponse mockResponse = new LoginResponse();
+            mockResponse.setToken("mock_token");
 
-                    @Override
-                    public void enqueue(Callback<LoginResponse> callback) {
-                        // Simulate a successful response
-                        Response<LoginResponse> response = Response.success(mockResponse);
-                        callback.onResponse(this, response);
-                    }
-
-                    @Override
-                    public boolean isExecuted() {
-                        return false;
-                    }
-
-                    @Override
-                    public void cancel() {
-
-                    }
-
-                    @Override
-                    public boolean isCanceled() {
-                        return false;
-                    }
-
-                    @Override
-                    public Call<LoginResponse> clone() {
-                        return null;
-                    }
-
-                    @Override
-                    public Request request() {
-                        return null;
-                    }
-
-                    @Override
-                    public Timeout timeout() {
-                        return null;
-                    }
-
-                    // Rest of the methods...
-
-                    // ...
-                };
-
-                return call;
-            }
+            Response<LoginResponse> response = Response.success(mockResponse);
+            return CallResult.successCall(response);
+        } else {
+            Response<LoginResponse> response = Response.error(401, ResponseBody.create(null, ""));
+            return CallResult.errorCall(response);
         }
-
-        // If no matching user account found, simulate a failed response
-        Call<LoginResponse> call = new Call<LoginResponse>() {
-            @Override
-            public Response<LoginResponse> execute() {
-                return null; // Not used in this case
-            }
-
-            @Override
-            public void enqueue(Callback<LoginResponse> callback) {
-                // Simulate a failed response
-                Response<LoginResponse> response = Response.error(401, ResponseBody.create(null, ""));
-                callback.onResponse(this, response);
-            }
-
-            @Override
-            public boolean isExecuted() {
-                return false;
-            }
-
-            @Override
-            public void cancel() {
-
-            }
-
-            @Override
-            public boolean isCanceled() {
-                return false;
-            }
-
-            @Override
-            public Call<LoginResponse> clone() {
-                return null;
-            }
-
-            @Override
-            public Request request() {
-                return null;
-            }
-
-            @Override
-            public Timeout timeout() {
-                return null;
-            }
-
-            // Rest of the methods...
-
-            // ...
-        };
-
-        return call;
     }
 
-    // Inner class representing a user account
+    @Override
+    public Call<RegisterResponse> register(RegisterRequest registerRequest) {
+        String email = registerRequest.getEmail();
+        String password = registerRequest.getPassword();
+
+        if (registeredEmails.contains(email)) {
+            RegisterResponse failedResponse = new RegisterResponse();
+            failedResponse.setToken(null);
+
+            Response<RegisterResponse> response = Response.error(401, ResponseBody.create(null, ""));
+            return CallResult.errorCall(response);
+        } else {
+            registeredEmails.add(email);
+            userAccounts.put(email, new UserAccount(email, password));
+
+            RegisterResponse successResponse = new RegisterResponse();
+            successResponse.setToken("mock_token");
+
+            Response<RegisterResponse> response = Response.success(successResponse);
+            return CallResult.successCall(response);
+        }
+    }
+
     private static class UserAccount {
         private String email;
         private String password;
@@ -159,6 +88,59 @@ public class MockApiService implements ApiService {
 
         public String getPassword() {
             return password;
+        }
+    }
+
+    private static class CallResult<T> implements Call<T> {
+        private final Response<T> response;
+
+        private CallResult(Response<T> response) {
+            this.response = response;
+        }
+
+        public static <T> Call<T> successCall(Response<T> response) {
+            return new CallResult<>(response);
+        }
+
+        public static <T> Call<T> errorCall(Response<T> response) {
+            return new CallResult<>(response);
+        }
+
+        @Override
+        public Response<T> execute() {
+            return response;
+        }
+
+        @Override
+        public void enqueue(Callback<T> callback) {
+            callback.onResponse(this, response);
+        }
+
+        @Override
+        public boolean isExecuted() {
+            return false;
+        }
+        @Override
+        public Call<T> clone() {
+            return null;
+        }
+        @Override
+        public void cancel() {
+        }
+
+        @Override
+        public boolean isCanceled() {
+            return false;
+        }
+
+        @Override
+        public Request request() {
+            return null;
+        }
+
+        @Override
+        public Timeout timeout() {
+            return null;
         }
     }
 }
