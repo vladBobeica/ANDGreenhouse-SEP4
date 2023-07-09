@@ -6,6 +6,10 @@ public class LoginResponse {
     @SerializedName("token")
     private String token;
 
+    public LoginResponse(String token) {
+        this.token = token;
+    }
+
     public String getToken() {
         return token;
     }
@@ -13,5 +17,4 @@ public class LoginResponse {
     public void setToken(String token) {
         this.token = token;
     }
-
 }

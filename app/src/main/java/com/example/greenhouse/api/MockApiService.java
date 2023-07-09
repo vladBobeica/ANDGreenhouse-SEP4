@@ -1,164 +1,47 @@
 package com.example.greenhouse.api;
 
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+
+import android.util.Log;
+
 import com.example.greenhouse.model.LoginRequest;
 import com.example.greenhouse.model.LoginResponse;
+import com.example.greenhouse.model.mock.MockUserData;
+import com.example.greenhouse.utils.RetrofitUtils;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
 
-import okhttp3.Request;
-import okhttp3.ResponseBody;
-import okio.Timeout;
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MockApiService implements ApiService {
-
-    private List<UserAccount> userAccounts;
-
-    public MockApiService() {
-        // Create a list of user accounts
-        userAccounts = new ArrayList<>();
-        userAccounts.add(new UserAccount("one@gmail.com", "111"));
-        userAccounts.add(new UserAccount("vlad@gmail.com", "1111"));
-        // Add more user accounts as needed
-    }
-
     @Override
     public Call<LoginResponse> login(LoginRequest loginRequest) {
-        // Extract the email and password from the login request
         String email = loginRequest.getEmail();
         String password = loginRequest.getPassword();
 
-        // Check if the provided credentials match any user account
-        for (UserAccount account : userAccounts) {
-            if (account.getEmail().equals(email) && account.getPassword().equals(password)) {
-                // Create a mock response for successful login
-                LoginResponse mockResponse = new LoginResponse();
-                mockResponse.setToken("mock_token");
+        // Retrieve the mock user data
+        List<MockUserData.User> users = MockUserData.getUsers();
 
-                // Create a dummy Call object and immediately execute the callback
-                Call<LoginResponse> call = new Call<LoginResponse>() {
-                    @Override
-                    public Response<LoginResponse> execute() {
-                        return null; // Not used in this case
-                    }
+        // Check if the provided email and password match any user in the mock data
+        for (MockUserData.User user : users) {
+            if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
+                // Authentication successful, return a mock LoginResponse with a token
+                String token = generateMockToken(); // Generate a mock token
+                LoginResponse loginResponse = new LoginResponse(token);
+                Log.d(TAG, "Mock user found");
 
-                    @Override
-                    public void enqueue(Callback<LoginResponse> callback) {
-                        // Simulate a successful response
-                        Response<LoginResponse> response = Response.success(mockResponse);
-                        callback.onResponse(this, response);
-                    }
-
-                    @Override
-                    public boolean isExecuted() {
-                        return false;
-                    }
-
-                    @Override
-                    public void cancel() {
-
-                    }
-
-                    @Override
-                    public boolean isCanceled() {
-                        return false;
-                    }
-
-                    @Override
-                    public Call<LoginResponse> clone() {
-                        return null;
-                    }
-
-                    @Override
-                    public Request request() {
-                        return null;
-                    }
-
-                    @Override
-                    public Timeout timeout() {
-                        return null;
-                    }
-
-                    // Rest of the methods...
-
-                    // ...
-                };
-
-                return call;
+                return RetrofitUtils.createSuccessCall(loginResponse);
             }
         }
 
-        // If no matching user account found, simulate a failed response
-        Call<LoginResponse> call = new Call<LoginResponse>() {
-            @Override
-            public Response<LoginResponse> execute() {
-                return null; // Not used in this case
-            }
-
-            @Override
-            public void enqueue(Callback<LoginResponse> callback) {
-                // Simulate a failed response
-                Response<LoginResponse> response = Response.error(401, ResponseBody.create(null, ""));
-                callback.onResponse(this, response);
-            }
-
-            @Override
-            public boolean isExecuted() {
-                return false;
-            }
-
-            @Override
-            public void cancel() {
-
-            }
-
-            @Override
-            public boolean isCanceled() {
-                return false;
-            }
-
-            @Override
-            public Call<LoginResponse> clone() {
-                return null;
-            }
-
-            @Override
-            public Request request() {
-                return null;
-            }
-
-            @Override
-            public Timeout timeout() {
-                return null;
-            }
-
-            // Rest of the methods...
-
-            // ...
-        };
-
-        return call;
+        // Authentication failed, return an error response
+        Log.d(TAG, "Mock user was not found");
+        return RetrofitUtils.createErrorCall(401, new IOException("Invalid credentials"));
     }
 
-    // Inner class representing a user account
-    private static class UserAccount {
-        private String email;
-        private String password;
-
-        public UserAccount(String email, String password) {
-            this.email = email;
-            this.password = password;
-        }
-
-        public String getEmail() {
-            return email;
-        }
-
-        public String getPassword() {
-            return password;
-        }
+    // Utility method to generate a mock token (example implementation)
+    private String generateMockToken() {
+        return "mock_token";
     }
 }
