@@ -2,8 +2,10 @@ package com.example.greenhouse.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +19,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText editTextEmail, editTextPassword;
     private Button buttonLogin;
     private LoginRepository loginRepository;
+    private ImageView goBackButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +29,17 @@ public class LoginActivity extends AppCompatActivity {
         editTextEmail = findViewById(R.id.emailEdit);
         editTextPassword = findViewById(R.id.passwordEdit);
         buttonLogin = findViewById(R.id.loginButton);
-
+        goBackButton = findViewById(R.id.goBackButtonLogin);
         loginRepository = new LoginRepository();
+
+        goBackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, IntroductionActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         buttonLogin.setOnClickListener(v -> {
             String email = editTextEmail.getText().toString().trim();
