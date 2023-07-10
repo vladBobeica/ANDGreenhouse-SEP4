@@ -49,30 +49,32 @@
         app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
     <Button
-        android:id="@+id/goToLoginButton"
+        android:id="@+id/buttonToLogin"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_margin="5dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
         android:text="Login"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/goToRegisterButton"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
-    <Button
-        android:id="@+id/goToRegisterButton"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_margin="5dp"
-        android:text="Register"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/goToLoginButton"
-        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+<!--    <Button-->
+<!--        android:id="@+id/goToRegisterButton"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:layout_margin="5dp"-->
+<!--        android:text="Register"-->
+<!--        android:textSize="24sp"-->
+<!--        android:textStyle="bold"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/goToLoginButton"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/textView9" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

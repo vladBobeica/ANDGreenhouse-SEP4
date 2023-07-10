@@ -10,30 +10,18 @@ import android.widget.Button;
 import com.example.greenhouse.R;
 
 public class IntroductionActivity extends AppCompatActivity {
-
+    private Button buttonToLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_introduction);
 
-        Button goToLoginButton = findViewById(R.id.goToLoginButton);
-        Button goToRegisterButton = findViewById(R.id.goToRegisterButton);
+        buttonToLogin = findViewById(R.id.buttonToLogin);
 
-        goToLoginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(IntroductionActivity.this, LoginActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        goToRegisterButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(IntroductionActivity.this, RegisterActivity.class);
-                startActivity(intent);
-            }
+        buttonToLogin.setOnClickListener(v -> {
+            Intent intent = new Intent(IntroductionActivity.this, LoginActivity.class);
+            startActivity(intent);
         });
     }
 }

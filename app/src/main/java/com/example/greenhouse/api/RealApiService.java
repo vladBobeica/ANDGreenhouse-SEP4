@@ -2,8 +2,6 @@ package com.example.greenhouse.api;
 
 import com.example.greenhouse.model.LoginRequest;
 import com.example.greenhouse.model.LoginResponse;
-import com.example.greenhouse.model.RegisterRequest;
-import com.example.greenhouse.model.RegisterResponse;
 
 import retrofit2.Call;
 import retrofit2.Retrofit;
@@ -23,9 +21,5 @@ public class RealApiService implements ApiService {
     @Override
     public Call<LoginResponse> login(LoginRequest loginRequest) {
         return apiService.login(loginRequest);
-    }
-    @Override
-    public Call<RegisterResponse> register(RegisterRequest registerRequest) {
-        return apiService.register(registerRequest);
     }
 }
