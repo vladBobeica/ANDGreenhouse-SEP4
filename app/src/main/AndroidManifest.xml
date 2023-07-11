@@ -23,7 +23,8 @@
             android:name=".ui.LoginActivity">
         </activity>
         <activity
-            android:name=".MainActivity" />
+            android:name=".MainActivity"
+            />
 
     </application>
 
