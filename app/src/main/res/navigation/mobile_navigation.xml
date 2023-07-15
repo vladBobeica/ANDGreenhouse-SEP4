@@ -27,4 +27,10 @@
         android:name="com.example.greenhouse.ui.settings.SettingsFragment"
         android:label="@string/title_settings"
         tools:layout="@layout/fragment_settings" />
+
+    <fragment
+        android:id="@+id/navigation_gh_component"
+        android:name="com.example.greenhouse.ui.components.GreenhouseComponent"
+        android:label="Greenhouse component"
+        tools:layout="@layout/fragment_greenhouse_component" />
 </navigation>

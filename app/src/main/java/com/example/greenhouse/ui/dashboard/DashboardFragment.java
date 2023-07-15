@@ -8,10 +8,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,7 +20,9 @@ import com.example.greenhouse.R;
 import com.example.greenhouse.adapter.GH_RecycleViewAdapter;
 import com.example.greenhouse.databinding.FragmentDashboardBinding;
 import com.example.greenhouse.model.GreenhouseModel;
+import com.example.greenhouse.ui.components.GreenhouseComponent;
 import com.example.greenhouse.ui.recyclerviewinterface.RecyclerViewInterface;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 
@@ -29,7 +32,6 @@ public class DashboardFragment extends Fragment implements RecyclerViewInterface
     private FragmentDashboardBinding binding;
     ArrayList<GreenhouseModel> greenhouseModel = new ArrayList<>();
 
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -38,9 +40,6 @@ public class DashboardFragment extends Fragment implements RecyclerViewInterface
 
         binding = FragmentDashboardBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-
-      /*  final TextView textView = binding.textDashboard;
-        dashboardViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);*/
 
         RecyclerView recyclerView = root.findViewById(R.id.greenHouseRV);
 
@@ -70,6 +69,16 @@ public class DashboardFragment extends Fragment implements RecyclerViewInterface
 
     @Override
     public void onItemClick(int position) {
+        GreenhouseComponent greenhouseComponent = new GreenhouseComponent();
+
+
+        Bundle args = new Bundle();
+        args.putInt("position", position);
+        greenhouseComponent.setArguments(args);
+
+
+        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main);
+        navController.navigate(R.id.navigation_gh_component, args);
 
     }
 }
