@@ -9,7 +9,9 @@ import androidx.navigation.ui.NavigationUI;
 import android.os.Bundle;
 
 import com.example.greenhouse.databinding.ActivityMainBinding;
+import com.example.greenhouse.ui.AddGreenhouseModal;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
@@ -27,5 +29,16 @@ public class MainActivity extends AppCompatActivity {
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupWithNavController(navView, navController);
+
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(v -> {
+            showAddGreenhouseDialog();
+        });
+    }
+
+    private void showAddGreenhouseDialog() {
+        AddGreenhouseModal dialogFragment = new AddGreenhouseModal();
+        dialogFragment.show(getSupportFragmentManager(), "AddGreenhouseModal");
     }
 }
+
