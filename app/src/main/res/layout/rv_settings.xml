@@ -25,11 +25,11 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/greenhouseNameTextView"
+                android:id="@+id/optionTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/title_dashboard"
-               android:textStyle="bold"
+                android:text="Settings"
+                android:textStyle="bold"
                 android:textSize="18sp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
