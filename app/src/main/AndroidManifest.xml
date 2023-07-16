@@ -12,7 +12,7 @@
         android:theme="@style/Theme.Greenhouse"
         tools:targetApi="31">
         <activity
-            android:name=".ui.IntroductionActivity"
+            android:name=".ui.activity.IntroductionActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.LoginActivity">
+            android:name=".ui.activity.LoginActivity">
         </activity>
         <activity
             android:name=".MainActivity"

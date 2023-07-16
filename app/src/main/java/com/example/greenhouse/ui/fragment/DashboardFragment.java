@@ -1,11 +1,9 @@
-package com.example.greenhouse.ui.dashboard;
+package com.example.greenhouse.ui.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,12 +15,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.greenhouse.R;
-import com.example.greenhouse.adapter.GH_RecycleViewAdapter;
 import com.example.greenhouse.databinding.FragmentDashboardBinding;
+import com.example.greenhouse.ui.adapter.GH_RecycleViewAdapter;
 import com.example.greenhouse.model.GreenhouseModel;
-import com.example.greenhouse.ui.components.GreenhouseComponent;
+import com.example.greenhouse.ui.viewmodel.DashboardViewModel;
 import com.example.greenhouse.ui.recyclerviewinterface.RecyclerViewInterface;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 
@@ -34,23 +31,19 @@ public class DashboardFragment extends Fragment implements RecyclerViewInterface
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
-        DashboardViewModel dashboardViewModel =
-                new ViewModelProvider(this).get(DashboardViewModel.class);
-
         binding = FragmentDashboardBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
+        return binding.getRoot();
+    }
 
-        RecyclerView recyclerView = root.findViewById(R.id.greenHouseRV);
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         setUpGreenHouseModel();
 
         GH_RecycleViewAdapter adapter = new GH_RecycleViewAdapter(getContext(), greenhouseModel, this);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        return root;
-
-
+        binding.greenHouseRV.setAdapter(adapter);
+        binding.greenHouseRV.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
     private void setUpGreenHouseModel(){

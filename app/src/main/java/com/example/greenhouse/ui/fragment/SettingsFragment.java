@@ -1,4 +1,4 @@
-package com.example.greenhouse.ui.settings;
+package com.example.greenhouse.ui.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,8 +9,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.greenhouse.R;
-import com.example.greenhouse.adapter.OptionsAdapter;
-import com.example.greenhouse.ui.AddUserModal;
+import com.example.greenhouse.ui.adapter.OptionsAdapter;
+import com.example.greenhouse.ui.modal.AddUserModal;
 
 import java.util.ArrayList;
 import java.util.List;

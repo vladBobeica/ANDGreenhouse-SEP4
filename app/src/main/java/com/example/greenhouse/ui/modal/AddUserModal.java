@@ -1,4 +1,4 @@
-package com.example.greenhouse.ui;
+package com.example.greenhouse.ui.modal;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -15,24 +15,27 @@ import androidx.fragment.app.DialogFragment;
 
 import com.example.greenhouse.R;
 
-public class AddGreenhouseModal extends DialogFragment {
+public class AddUserModal extends DialogFragment {
 
-    private EditText greenHouseName;
+    private EditText userEmail;
+    private EditText userPassword;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.modal_add_greenhouse, container, false);
+        View rootView = inflater.inflate(R.layout.modal_add_user, container, false);
 
-        greenHouseName = rootView.findViewById(R.id.greenhouseNameEditText);
-        Button addGreenHouseButton = rootView.findViewById(R.id.addGreenHouseButton);
-        addGreenHouseButton.setOnClickListener(v -> {
-            String name = greenHouseName.getText().toString().trim();
-            if (!name.isEmpty()) {
+        userEmail = rootView.findViewById(R.id.addUserEmail);
+        userPassword = rootView.findViewById(R.id.addUserPassword);
+        Button addUserButton = rootView.findViewById(R.id.addUserButton);
+        addUserButton.setOnClickListener(v -> {
+            String email = userEmail.getText().toString().trim();
+            String password = userPassword.getText().toString().trim();
+            if (!email.isEmpty() || !password.isEmpty()) {
                 // Logic here
                 dismiss();
             } else {
-                Toast.makeText(getContext(), "Please enter the greenhouse name", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Email or password incorrectly", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -42,7 +45,7 @@ public class AddGreenhouseModal extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
-        dialog.setContentView(R.layout.modal_add_greenhouse);
+        dialog.setContentView(R.layout.modal_add_user);
         if (dialog.getWindow() != null) {
             dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);

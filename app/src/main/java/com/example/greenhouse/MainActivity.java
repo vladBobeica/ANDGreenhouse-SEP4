@@ -9,7 +9,7 @@ import androidx.navigation.ui.NavigationUI;
 import android.os.Bundle;
 
 import com.example.greenhouse.databinding.ActivityMainBinding;
-import com.example.greenhouse.ui.AddGreenhouseModal;
+import com.example.greenhouse.ui.modal.AddGreenhouseModal;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 

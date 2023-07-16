@@ -1,4 +1,4 @@
-package com.example.greenhouse.ui;
+package com.example.greenhouse.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;

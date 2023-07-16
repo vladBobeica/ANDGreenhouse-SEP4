@@ -1,4 +1,4 @@
-package com.example.greenhouse.adapter;
+package com.example.greenhouse.ui.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;

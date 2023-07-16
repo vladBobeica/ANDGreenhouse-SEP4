@@ -1,4 +1,4 @@
-package com.example.greenhouse.ui.notifications;
+package com.example.greenhouse.ui.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.greenhouse.databinding.FragmentNotificationsBinding;
+import com.example.greenhouse.ui.viewmodel.NotificationsViewModel;
 
 public class NotificationsFragment extends Fragment {
 
