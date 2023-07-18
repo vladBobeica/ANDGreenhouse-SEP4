@@ -1,7 +1,10 @@
 package com.example.greenhouse.api;
 
+import com.example.greenhouse.model.GreenHouseModel;
 import com.example.greenhouse.model.LoginRequest;
 import com.example.greenhouse.model.LoginResponse;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Retrofit;
@@ -21,5 +24,20 @@ public class RealApiService implements ApiService {
     @Override
     public Call<LoginResponse> login(LoginRequest loginRequest) {
         return apiService.login(loginRequest);
+    }
+
+    @Override
+    public Call<List<GreenHouseModel>> getUserGreenHouses(String token) {
+        return null;
+    }
+
+    @Override
+    public Call<GreenHouseModel> createGreenHouse(GreenHouseModel greenhouseModel) {
+        return null;
+    }
+
+    @Override
+    public Call<Void> deleteGreenHouse(int greenhouseId) {
+        return null;
     }
 }

@@ -4,8 +4,10 @@ import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
 import android.util.Log;
 
+import com.example.greenhouse.model.GreenHouseModel;
 import com.example.greenhouse.model.LoginRequest;
 import com.example.greenhouse.model.LoginResponse;
+import com.example.greenhouse.model.mock.MockGreenHouseRepository;
 import com.example.greenhouse.model.mock.MockUserData;
 import com.example.greenhouse.utils.RetrofitUtils;
 
@@ -40,8 +42,34 @@ public class MockApiService implements ApiService {
         return RetrofitUtils.createErrorCall(401, new IOException("Invalid credentials"));
     }
 
+    @Override
+    public Call<List<GreenHouseModel>> getUserGreenHouses(String token) {
+        List<GreenHouseModel> mockGreenHouses = MockGreenHouseRepository.getGreenHouses();
+
+        return RetrofitUtils.createSuccessCall(mockGreenHouses);
+    }
+
+    @Override
+    public Call<GreenHouseModel> createGreenHouse(GreenHouseModel greenhouseModel) {
+        GreenHouseModel mockGreenHouses = MockGreenHouseRepository.addGreenHouse(greenhouseModel);
+
+        return RetrofitUtils.createSuccessCall(mockGreenHouses);
+    }
+
+    @Override
+    public Call<Void> deleteGreenHouse(int greenHouseId) {
+        boolean wasDeleted = MockGreenHouseRepository.removeGreenHouse(greenHouseId);
+
+        if (wasDeleted) {
+            return RetrofitUtils.createSuccessCall();
+        }
+
+        Log.d(TAG, "GreenHouse not found");
+        return RetrofitUtils.createErrorCall(404, new IOException("GreenHouse not found"));
+    }
+
     // Utility method to generate a mock token (example implementation)
-    private String generateMockToken() {
+    public String generateMockToken() {
         return "mock_token";
     }
 }
