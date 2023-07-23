@@ -11,6 +11,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -148,10 +149,39 @@ public class HomeFragment extends Fragment implements RecyclerViewInterface {
 
     private void showMeasurementAlertDialog(String measurementType) {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-        builder.setTitle("Selected Measurement");
-        builder.setMessage("You clicked on: " + measurementType);
+
+        String message;
+        String title;
+        switch (measurementType) {
+            case "Temperature":
+                title = "Temperature values";
+                message = "Daytime temperature: <b>20°C to 30°C</b><br>" +
+                        "Nighttime temperature: <b>15°C to 20°C</b><br>" +
+                        "Temperature during germination: <b>25°C to 30°C</b><br>" +
+                        "Temperature during flowering: <b>18°C to 24°C</b>";
+                break;
+            case "Humidity":
+                title = "Humidity values";
+                message = "Relative humidity: <b>60% to 80%</b><br>" +
+                        "Higher humidity is generally required during the early growth stages, and it can be reduced as the plants mature.";
+                break;
+            case "Light":
+                title = "Light values";
+                message = "Light intensity: Varies based on the type of plants, but typically around <b>1000 to 1500 µmol/m²/s</b> for full sun plants. Shade-tolerant plants may require lower light levels.<br>" +
+                        "Light duration: Generally, plants need around <b>12 to 16 hours</b> of light per day for optimal growth. Some plants might have specific photoperiod requirements.";
+                break;
+            default:
+                title = "Recommended values";
+                message = "You clicked on: " + measurementType;
+                break;
+        }
+
+        builder.setMessage(Html.fromHtml(message, Html.FROM_HTML_MODE_COMPACT));
+        builder.setTitle(title);
         builder.setPositiveButton("OK", null);
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
+
+
 }

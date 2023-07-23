@@ -71,7 +71,6 @@ public class RecommendedMeasurementsAdapter extends RecyclerView.Adapter<Recomme
         public void bind(RecommendedMeasurementsModel recommendedMeasurementsModel) {
             titleTextView.setText(recommendedMeasurementsModel.getTitle());
 
-
         }
     }
 }
