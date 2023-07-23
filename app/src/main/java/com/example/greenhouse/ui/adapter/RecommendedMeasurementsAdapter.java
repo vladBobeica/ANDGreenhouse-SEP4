@@ -17,30 +17,28 @@ import com.example.greenhouse.ui.recyclerviewinterface.RecyclerViewInterface;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecommendedMeasurementsAdapter extends RecyclerView.Adapter<RecommendedMeasurementsAdapter.MyViewHolder> {
+public class RecommendedMeasurementsAdapter extends RecyclerView.Adapter<RecommendedMeasurementsAdapter.RecommendedMeasurementsViewHolder> {
 
     private final RecyclerViewInterface recyclerViewInterface;
-    private ArrayList<RecommendedMeasurementsModel> recommendedMeasurements;
-    private Context context;
+    private List<RecommendedMeasurementsModel> recommendedMeasurements;
 
-    public RecommendedMeasurementsAdapter(Context context, ArrayList<RecommendedMeasurementsModel> recommendedMeasurements, RecyclerViewInterface recyclerViewInterface) {
-        this.context = context;
+
+    public RecommendedMeasurementsAdapter(List<RecommendedMeasurementsModel> recommendedMeasurements, RecyclerViewInterface recyclerViewInterface){
         this.recommendedMeasurements = recommendedMeasurements;
         this.recyclerViewInterface = recyclerViewInterface;
     }
 
     @NonNull
     @Override
-    public RecommendedMeasurementsAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.rv_recommended_measurements, parent, false);
-        return new RecommendedMeasurementsAdapter.MyViewHolder(view, recyclerViewInterface);
+    public RecommendedMeasurementsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.rv_recommended_measurements, parent, false);
+        return new RecommendedMeasurementsViewHolder(itemView, recyclerViewInterface);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecommendedMeasurementsAdapter.MyViewHolder holder, int position) {
-        holder.titleTextView.setText(recommendedMeasurements.get(position).getTitle());
-
+    public void onBindViewHolder(@NonNull RecommendedMeasurementsViewHolder holder, int position) {
+        RecommendedMeasurementsModel recommendedMeasurement = recommendedMeasurements.get(position);
+        holder.bind(recommendedMeasurement);
     }
 
     @Override
@@ -48,26 +46,32 @@ public class RecommendedMeasurementsAdapter extends RecyclerView.Adapter<Recomme
         return recommendedMeasurements.size();
     }
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
-        private TextView titleTextView;
-        private ImageView iconImageView;
 
-        public MyViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface) {
+    public static class RecommendedMeasurementsViewHolder extends RecyclerView.ViewHolder {
+        private TextView titleTextView;
+
+
+        public RecommendedMeasurementsViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
             titleTextView = itemView.findViewById(R.id.recommendedMeasurementsTextView);
-            iconImageView = itemView.findViewById(R.id.recommendedMeasurementsIcon);
-            itemView.setOnClickListener(new View.OnClickListener() {
+
+            itemView.setOnClickListener(new View.OnClickListener(){
                 @Override
-                public void onClick(View view) {
-                    if (recyclerViewInterface != null) {
+                public void onClick(View view){
+                    if (recyclerViewInterface != null){
                         int pos = getAdapterPosition();
 
-                        if (pos != RecyclerView.NO_POSITION) {
+                        if(pos != RecyclerView.NO_POSITION){
                             recyclerViewInterface.onItemClick(pos);
                         }
                     }
                 }
             });
+                }
+        public void bind(RecommendedMeasurementsModel recommendedMeasurementsModel) {
+            titleTextView.setText(recommendedMeasurementsModel.getTitle());
+
+
         }
     }
 }
