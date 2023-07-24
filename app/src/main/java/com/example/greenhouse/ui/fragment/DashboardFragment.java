@@ -1,5 +1,6 @@
 package com.example.greenhouse.ui.fragment;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,7 +20,7 @@ import com.example.greenhouse.databinding.FragmentDashboardBinding;
 import com.example.greenhouse.model.GreenHouseModel;
 import com.example.greenhouse.repository.GreenHouseRepository;
 import com.example.greenhouse.ui.adapter.GreenHouseAdapter;
-import com.example.greenhouse.ui.recyclerviewinterface.RecyclerViewInterface;
+import com.example.greenhouse.ui.recyclerviewinterface.RecyclerViewInterfaceDashboard;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +30,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class DashboardFragment extends Fragment implements RecyclerViewInterface {
+public class DashboardFragment extends Fragment implements RecyclerViewInterfaceDashboard {
     private static final String TAG = DashboardFragment.class.getSimpleName();
     private GreenHouseRepository repository;
     private GreenHouseAdapter adapter;
@@ -39,7 +40,7 @@ public class DashboardFragment extends Fragment implements RecyclerViewInterface
         View rootView = inflater.inflate(R.layout.fragment_dashboard, container, false);
         RecyclerView recyclerView = rootView.findViewById(R.id.greenHouseRV);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new GreenHouseAdapter(new ArrayList<>());
+        adapter = new GreenHouseAdapter(new ArrayList<>(), this);
         recyclerView.setAdapter(adapter);
         return rootView;
     }
@@ -69,6 +70,30 @@ public class DashboardFragment extends Fragment implements RecyclerViewInterface
         navController.navigate(R.id.navigation_gh_component, args);
     }
 
+    @Override
+    public void onItemLongClick(int position) {
+        Log.d(TAG, "Long clicked on position: " + position + ", greenhouseId: " + adapter.getGreenHouse(position).getId());
+        GreenHouseModel selectedGreenHouse = adapter.getGreenHouse(position);
+        if (selectedGreenHouse != null) {
+            int greenhouseId = selectedGreenHouse.getId();
+            Log.d(TAG, "Long clicked on position: " + position + ", greenhouseId: " + greenhouseId);
+
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+            builder.setTitle("Confirm");
+            builder.setMessage("Do you want to remove this greenhouse?");
+            builder.setPositiveButton("Yes", (dialog, which) -> {
+                removeGreenHouseFromRepository(greenhouseId, position);
+            });
+            builder.setNegativeButton("No", (dialog, which) -> {
+
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
+    }
+
+
     private void getAllGreenHouses() {
         repository.getAllGreenHouses(new Callback<List<GreenHouseModel>>() {
             @Override
@@ -77,16 +102,36 @@ public class DashboardFragment extends Fragment implements RecyclerViewInterface
                     List<GreenHouseModel> greenhouses = response.body();
                     adapter.setGreenhouses(greenhouses);
                 } else {
-                    // Handle API error (e.g., display an error message)
                     Log.e(TAG, "Failed to get greenhouses. Error code: " + response.code());
                 }
             }
 
             @Override
             public void onFailure(Call<List<GreenHouseModel>> call, Throwable t) {
-                // Handle network or other errors (e.g., display an error message)
                 Log.e(TAG, "Failed to get greenhouses. Error: " + t.getMessage());
             }
         });
     }
+
+    private void removeGreenHouseFromRepository(int greenhouseId, int position) {
+        repository.removeGreenHouse(greenhouseId, new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    adapter.removeGreenHouse(greenhouseId);
+                    getAllGreenHouses();
+                } else {
+                    Log.e(TAG, "Failed to remove greenhouse. Error code: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.e(TAG, "Failed to remove greenhouse. Error: " + t.getMessage());
+            }
+        });
+    }
+
+
+
 }

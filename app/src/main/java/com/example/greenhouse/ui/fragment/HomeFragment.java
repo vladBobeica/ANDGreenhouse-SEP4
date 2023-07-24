@@ -56,7 +56,7 @@ public class HomeFragment extends Fragment implements RecyclerViewInterface {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new HomeGreenHouseAdapter(new ArrayList<>());
+        adapter = new HomeGreenHouseAdapter(new ArrayList<>(), this);
         recyclerView.setAdapter(adapter);
 
         //Recommended values

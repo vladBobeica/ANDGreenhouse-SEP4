@@ -11,8 +11,8 @@ public class MockGreenHouseRepository {
     static {
         greenHouses.add(new GreenHouseModel(1, "My Garden", "Horsens, Gasvej 11"));
         greenHouses.add(new GreenHouseModel(2, "Potato Farm", "Vejle, Sundvej 22"));
-        greenHouses.add(new GreenHouseModel(2, "Eggplant Farm", "Vejle, Sundvej 22"));
-        greenHouses.add(new GreenHouseModel(2, "Chicken Farm", "Vejle, Sundvej 22"));
+        greenHouses.add(new GreenHouseModel(3, "Eggplant Farm", "Vejle, Sundvej 22"));
+        greenHouses.add(new GreenHouseModel(4, "Chicken Farm", "Vejle, Sundvej 22"));
     }
 
     public static List<GreenHouseModel> getGreenHouses() {
