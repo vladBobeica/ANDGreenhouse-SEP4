@@ -53,12 +53,12 @@ public class GreenHouseAdapter extends RecyclerView.Adapter<GreenHouseAdapter.Gr
         public GreenHouseViewHolder(@NonNull View itemView) {
             super(itemView);
             nameTextView = itemView.findViewById(R.id.greenhouseNameTextView);
-//            addressTextView = itemView.findViewById(R.id.addressTextView);
+            addressTextView = itemView.findViewById(R.id.greenhouseAddressTextView);
         }
 
         public void bind(GreenHouseModel greenhouse) {
-            nameTextView.setText(greenhouse.getName());
-//            addressTextView.setText(greenhouse.getAddress());
+             nameTextView.setText(greenhouse.getName());
+             addressTextView.setText(greenhouse.getAddress());
         }
     }
 }

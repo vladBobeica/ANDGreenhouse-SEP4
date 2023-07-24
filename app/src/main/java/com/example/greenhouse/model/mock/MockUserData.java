@@ -9,6 +9,7 @@ public class MockUserData {
     static {
         users.add(new User("one@gmail.com", "111"));
         users.add(new User("vlad@gmail.com", "1111"));
+        users.add(new User("alin@gmail.com", "1234"));
     }
 
     public static List<User> getUsers() {
