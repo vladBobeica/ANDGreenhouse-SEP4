@@ -9,16 +9,20 @@ import androidx.navigation.ui.NavigationUI;
 import android.os.Bundle;
 
 import com.example.greenhouse.databinding.ActivityMainBinding;
+import com.example.greenhouse.session.SessionManager;
 import com.example.greenhouse.ui.modal.AddGreenhouseModal;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {
+    private static SessionManager sessionManager;
     private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        sessionManager = new SessionManager(getApplicationContext());
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -34,6 +38,10 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(v -> {
             showAddGreenhouseDialog();
         });
+    }
+
+    public static SessionManager getSessionManager() {
+        return sessionManager;
     }
 
     private void showAddGreenhouseDialog() {
