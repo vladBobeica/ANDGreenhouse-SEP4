@@ -49,12 +49,12 @@ public class GreenhouseComponent extends Fragment {
             recyclerView.setAdapter(adapter);
         });
 
-        viewModel.addSampleData(); // Call this method to add sample data (moved to ViewModel)
+        viewModel.addSampleData();
 
         ImageView goBackButton = binding.goBackToDashboard;
         goBackButton.setOnClickListener(v -> {
             NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main);
-            navController.navigate(R.id.navigation_dashboard);
+            navController.popBackStack();
         });
     }
 
