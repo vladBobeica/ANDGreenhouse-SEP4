@@ -1,6 +1,6 @@
 package com.example.greenhouse.ui.recyclerviewinterface;
 
-public interface RecyclerViewInterface {
+public interface RecyclerViewInterfaceHomeGh {
     void onItemClick(int position);
 
 }

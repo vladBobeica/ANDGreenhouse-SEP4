@@ -1,10 +1,8 @@
 package com.example.greenhouse.ui.adapter;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,27 +10,27 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.greenhouse.R;
 import com.example.greenhouse.model.RecommendedMeasurementsModel;
-import com.example.greenhouse.ui.recyclerviewinterface.RecyclerViewInterface;
+import com.example.greenhouse.ui.recyclerviewinterface.RecyclerViewInterfaceHomeGh;
+import com.example.greenhouse.ui.recyclerviewinterface.RecyclerViewInterfaceHomeMeas;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class RecommendedMeasurementsAdapter extends RecyclerView.Adapter<RecommendedMeasurementsAdapter.RecommendedMeasurementsViewHolder> {
 
-    private final RecyclerViewInterface recyclerViewInterface;
+    private final RecyclerViewInterfaceHomeMeas recyclerViewInterfaceHomeMeas;
     private List<RecommendedMeasurementsModel> recommendedMeasurements;
 
 
-    public RecommendedMeasurementsAdapter(List<RecommendedMeasurementsModel> recommendedMeasurements, RecyclerViewInterface recyclerViewInterface){
+    public RecommendedMeasurementsAdapter(List<RecommendedMeasurementsModel> recommendedMeasurements, RecyclerViewInterfaceHomeMeas recyclerViewInterfaceHomeMeas){
         this.recommendedMeasurements = recommendedMeasurements;
-        this.recyclerViewInterface = recyclerViewInterface;
+        this.recyclerViewInterfaceHomeMeas = recyclerViewInterfaceHomeMeas;
     }
 
     @NonNull
     @Override
     public RecommendedMeasurementsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.rv_recommended_measurements, parent, false);
-        return new RecommendedMeasurementsViewHolder(itemView, recyclerViewInterface);
+        return new RecommendedMeasurementsViewHolder(itemView, recyclerViewInterfaceHomeMeas);
     }
 
     @Override
@@ -51,18 +49,18 @@ public class RecommendedMeasurementsAdapter extends RecyclerView.Adapter<Recomme
         private TextView titleTextView;
 
 
-        public RecommendedMeasurementsViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface) {
+        public RecommendedMeasurementsViewHolder(@NonNull View itemView, RecyclerViewInterfaceHomeMeas recyclerViewInterfaceHomeMeas) {
             super(itemView);
             titleTextView = itemView.findViewById(R.id.recommendedMeasurementsTextView);
 
             itemView.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View view){
-                    if (recyclerViewInterface != null){
+                    if (recyclerViewInterfaceHomeMeas != null){
                         int pos = getAdapterPosition();
 
                         if(pos != RecyclerView.NO_POSITION){
-                            recyclerViewInterface.onItemClick(pos);
+                            recyclerViewInterfaceHomeMeas.onRecommendedMeasurementsClick(pos);
                         }
                     }
                 }

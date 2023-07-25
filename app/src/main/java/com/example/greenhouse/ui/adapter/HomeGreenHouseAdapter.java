@@ -4,26 +4,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.greenhouse.R;
 import com.example.greenhouse.model.GreenHouseModel;
-import com.example.greenhouse.ui.recyclerviewinterface.RecyclerViewInterface;
+import com.example.greenhouse.ui.recyclerviewinterface.RecyclerViewInterfaceHomeGh;
 
 import java.util.List;
 
 public class HomeGreenHouseAdapter extends RecyclerView.Adapter<HomeGreenHouseAdapter.HomeGreenHouseViewHolder> {
     private List<GreenHouseModel> greenhouses;
-    private final RecyclerViewInterface recyclerViewInterface;
+    private final RecyclerViewInterfaceHomeGh recyclerViewInterfaceHomeGh;
 
 
 
-    public HomeGreenHouseAdapter(List<GreenHouseModel> greenhouses, RecyclerViewInterface recyclerViewInterface) {
+    public HomeGreenHouseAdapter(List<GreenHouseModel> greenhouses, RecyclerViewInterfaceHomeGh recyclerViewInterfaceHomeGh) {
         this.greenhouses = greenhouses;
-        this.recyclerViewInterface = recyclerViewInterface;
+        this.recyclerViewInterfaceHomeGh = recyclerViewInterfaceHomeGh;
 
     }
 
@@ -31,7 +30,7 @@ public class HomeGreenHouseAdapter extends RecyclerView.Adapter<HomeGreenHouseAd
     @Override
     public HomeGreenHouseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.rv_home_gh, parent, false);
-        return new HomeGreenHouseViewHolder(itemView, recyclerViewInterface);
+        return new HomeGreenHouseViewHolder(itemView, recyclerViewInterfaceHomeGh);
     }
 
     @Override
@@ -54,7 +53,7 @@ public class HomeGreenHouseAdapter extends RecyclerView.Adapter<HomeGreenHouseAd
         private TextView nameTextView;
         private TextView addressTextView;
 
-        public HomeGreenHouseViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface) {
+        public HomeGreenHouseViewHolder(@NonNull View itemView, RecyclerViewInterfaceHomeGh recyclerViewInterfaceHomeGh) {
             super(itemView);
             nameTextView = itemView.findViewById(R.id.greenhouseNameTextView);
              addressTextView = itemView.findViewById(R.id.greenhouseAddressTextView);
@@ -62,11 +61,11 @@ public class HomeGreenHouseAdapter extends RecyclerView.Adapter<HomeGreenHouseAd
              itemView.setOnClickListener(new View.OnClickListener() {
                  @Override
                  public void onClick(View view) {
-                     if (recyclerViewInterface != null){
+                     if (recyclerViewInterfaceHomeGh != null){
                          int pos = getAdapterPosition();
 
                          if(pos != RecyclerView.NO_POSITION){
-                             recyclerViewInterface.onItemClick(pos);
+                             recyclerViewInterfaceHomeGh.onItemClick(pos);
                          }
                      }
                  }

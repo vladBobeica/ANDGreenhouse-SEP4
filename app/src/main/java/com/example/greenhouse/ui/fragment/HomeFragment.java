@@ -23,7 +23,8 @@ import com.example.greenhouse.model.RecommendedMeasurementsModel;
 import com.example.greenhouse.repository.GreenHouseRepository;
 import com.example.greenhouse.ui.adapter.HomeGreenHouseAdapter;
 import com.example.greenhouse.ui.adapter.RecommendedMeasurementsAdapter;
-import com.example.greenhouse.ui.recyclerviewinterface.RecyclerViewInterface;
+import com.example.greenhouse.ui.recyclerviewinterface.RecyclerViewInterfaceHomeGh;
+import com.example.greenhouse.ui.recyclerviewinterface.RecyclerViewInterfaceHomeMeas;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class HomeFragment extends Fragment implements RecyclerViewInterface {
+public class HomeFragment extends Fragment implements RecyclerViewInterfaceHomeGh, RecyclerViewInterfaceHomeMeas {
 
     private static final String TAG = HomeFragment.class.getSimpleName();
     private GreenHouseRepository repository;
@@ -86,8 +87,6 @@ public class HomeFragment extends Fragment implements RecyclerViewInterface {
 
     @Override
     public void onItemClick(int position) {
-        RecyclerView recyclerView = requireView().findViewById(R.id.horizontalRecomValuesRV);
-        if (recyclerView.getId() == R.id.horizontalGreenHouseRV) {
             GreenhouseComponent greenhouseComponent = new GreenhouseComponent();
 
             Bundle args = new Bundle();
@@ -96,26 +95,29 @@ public class HomeFragment extends Fragment implements RecyclerViewInterface {
 
             NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main);
             navController.navigate(R.id.navigation_gh_component, args);
-        } else if (recyclerView.getId() == R.id.horizontalRecomValuesRV) {
+        }
+
+    @Override
+    public void onRecommendedMeasurementsClick(int position) {
             RecommendedMeasurementsModel selectedMeasurement = recommendedMeasurements.get(position);
             String measurementType = selectedMeasurement.getTitle();
 
             switch (measurementType) {
                 case "Temperature":
-                showMeasurementAlertDialog(measurementType);
+                    showMeasurementAlertDialog(measurementType);
                     break;
                 case "Humidity":
-                showMeasurementAlertDialog(measurementType);
+                    showMeasurementAlertDialog(measurementType);
                     break;
                 case "Light":
-                  showMeasurementAlertDialog(measurementType);
+                    showMeasurementAlertDialog(measurementType);
                     break;
                 default:
                     // Handle the default case or do nothing if needed
                     break;
             }
         }
-    }
+
 
 
     private void getAllGreenHouses() {
@@ -182,6 +184,7 @@ public class HomeFragment extends Fragment implements RecyclerViewInterface {
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
+
 
 
 }
