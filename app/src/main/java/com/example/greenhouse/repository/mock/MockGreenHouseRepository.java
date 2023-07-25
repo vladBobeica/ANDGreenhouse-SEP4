@@ -1,4 +1,4 @@
-package com.example.greenhouse.model.mock;
+package com.example.greenhouse.repository.mock;
 
 import com.example.greenhouse.model.GreenHouseModel;
 
@@ -9,14 +9,14 @@ public class MockGreenHouseRepository {
     private static final List<GreenHouseModel> greenHouses = new ArrayList<>();
 
     static {
-        greenHouses.add(new GreenHouseModel(1, "My Garden", "Horsens, Gasvej 11"));
-        greenHouses.add(new GreenHouseModel(2, "Potato Farm", "Vejle, Sundvej 22"));
+        greenHouses.add(new GreenHouseModel(1, "Vlad's Garden", "Horsens, Gasvej 11"));
+        greenHouses.add(new GreenHouseModel(2, "Alin's Potato Farm", "Vejle, Sundvej 22"));
         greenHouses.add(new GreenHouseModel(3, "Eggplant Farm", "Vejle, Sundvej 22"));
         greenHouses.add(new GreenHouseModel(4, "Chicken Farm", "Vejle, Sundvej 22"));
     }
 
     public static List<GreenHouseModel> getGreenHouses() {
-        return greenHouses;
+        return new ArrayList<>(greenHouses);
     }
 
     public static GreenHouseModel addGreenHouse(GreenHouseModel greenHouseToCreate) {
