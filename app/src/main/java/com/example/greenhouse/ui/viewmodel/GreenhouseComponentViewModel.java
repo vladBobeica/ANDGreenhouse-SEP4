@@ -28,83 +28,83 @@ public class GreenhouseComponentViewModel extends ViewModel {
         measurementListLiveData.setValue(measurements);
     }
 
-    public void addSampleData() {
-        List<MeasurementModel> measurementList = new ArrayList<>();
-
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-        measurementList.add(new MeasurementModel("2023-07-13", "23°C", "70%", "800 Lux"));
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
-        measurementListLiveData.setValue(measurementList);
-    }
+//    public void addSampleData() {
+//        List<MeasurementModel> measurementList = new ArrayList<>();
+//
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//        measurementList.add(new MeasurementModel("2023-07-13", "23°C", "70%", "800 Lux"));
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//        measurementList.add(new MeasurementModel("2023-07-14", "25°C", "65%", "1000 Lux"));
+//        measurementListLiveData.setValue(measurementList);
+//    }
 }
 
 

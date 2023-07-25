@@ -3,6 +3,7 @@ package com.example.greenhouse.api;
 import com.example.greenhouse.model.GreenHouseModel;
 import com.example.greenhouse.model.LoginRequest;
 import com.example.greenhouse.model.LoginResponse;
+import com.example.greenhouse.model.MeasurementModel;
 
 import java.util.List;
 
@@ -26,4 +27,8 @@ public interface ApiService {
 
     @DELETE("greenHouses/{id}")
     Call<Void> deleteGreenHouse(@Path("id") int greenhouseId);
+
+    @GET("measurement")
+    Call<List<MeasurementModel>> getUserMeasurement(@Header("Authorization") String token);
+
 }

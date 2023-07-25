@@ -49,7 +49,7 @@ public class GreenhouseComponent extends Fragment {
             recyclerView.setAdapter(adapter);
         });
 
-        viewModel.addSampleData(); // Call this method to add sample data (moved to ViewModel)
+       // viewModel.addSampleData(); // Call this method to add sample data (moved to ViewModel)
 
         ImageView goBackButton = binding.goBackToDashboard;
         goBackButton.setOnClickListener(v -> {

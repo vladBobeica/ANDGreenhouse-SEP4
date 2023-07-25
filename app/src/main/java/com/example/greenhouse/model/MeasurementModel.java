@@ -1,18 +1,23 @@
 package com.example.greenhouse.model;
 
 public class MeasurementModel {
-    private final String date;
-    private final String temperature;
-    private final String humidity;
-    private final String light;
+    private  int id;
+    private String date;
+    private String temperature;
+    private String humidity;
+    private String light;
 
-    public MeasurementModel(String date, String temperature, String humidity, String light) {
+    public MeasurementModel(int id, String date, String temperature, String humidity, String light) {
+        this.id = id;
         this.date = date;
         this.temperature = temperature;
         this.humidity = humidity;
         this.light = light;
     }
 
+    public int getId() {
+        return id;
+    }
     public String getDate() {
         return date;
     }

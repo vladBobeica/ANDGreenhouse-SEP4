@@ -3,6 +3,7 @@ package com.example.greenhouse.api;
 import com.example.greenhouse.model.GreenHouseModel;
 import com.example.greenhouse.model.LoginRequest;
 import com.example.greenhouse.model.LoginResponse;
+import com.example.greenhouse.model.MeasurementModel;
 
 import java.util.List;
 
@@ -38,6 +39,11 @@ public class RealApiService implements ApiService {
 
     @Override
     public Call<Void> deleteGreenHouse(int greenhouseId) {
+        return null;
+    }
+
+    @Override
+    public Call<List<MeasurementModel>> getUserMeasurement(String token) {
         return null;
     }
 }
