@@ -18,6 +18,7 @@ import com.example.greenhouse.R;
 public class AddGreenhouseModal extends DialogFragment {
 
     private EditText greenHouseName;
+    private EditText greenHouseAddress;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -25,9 +26,11 @@ public class AddGreenhouseModal extends DialogFragment {
         View rootView = inflater.inflate(R.layout.modal_add_greenhouse, container, false);
 
         greenHouseName = rootView.findViewById(R.id.greenhouseNameEditText);
+        greenHouseAddress = rootView.findViewById(R.id.greenhouseAddressEditText);
         Button addGreenHouseButton = rootView.findViewById(R.id.addGreenHouseButton);
         addGreenHouseButton.setOnClickListener(v -> {
             String name = greenHouseName.getText().toString().trim();
+            String address = greenHouseAddress.getText().toString().trim();
             if (!name.isEmpty()) {
                 // Logic here
                 dismiss();
