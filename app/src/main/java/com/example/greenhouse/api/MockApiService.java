@@ -23,6 +23,7 @@ import retrofit2.Call;
 
 public class MockApiService implements ApiService {
     private static String mockToken;
+    private static int currentUserId;
 
     @Override
     public Call<LoginResponse> login(LoginRequest loginRequest) {
@@ -40,8 +41,9 @@ public class MockApiService implements ApiService {
                 LoginResponse loginResponse = new LoginResponse(token);
                 Log.d(TAG, "Mock user found");
 
-                // Store token in mock
-                mockToken = String.valueOf(user.getId());
+                // Store token and current user's ID in mock
+                mockToken = token;
+                currentUserId = user.getId();
 
                 return RetrofitUtils.createSuccessCall(loginResponse);
             }
@@ -51,6 +53,9 @@ public class MockApiService implements ApiService {
         Log.d(TAG, "Mock user was not found");
         return RetrofitUtils.createErrorCall(401, new IOException("Invalid credentials"));
     }
+    public static int getCurrentUserId() {
+        return currentUserId;
+    }
 
     @Override
     public Call<List<GreenHouseModel>> getUserGreenHouses(String token) {
@@ -59,21 +64,21 @@ public class MockApiService implements ApiService {
         List<GreenHouseModel> usersGreenHouses = new ArrayList<>();
 
         // Vlad's green houses
-        if (mockToken.equals("1")) {
+        if (currentUserId == 1) {
             usersGreenHouses.addAll(
                     Arrays.asList(
                             mockGreenHouses.get(0),
                             mockGreenHouses.get(3)
                     )
             );
-        } else if (mockToken.equals("2")) {
+        } else if (currentUserId == 2) {
             usersGreenHouses.addAll(
                     Arrays.asList(
                             mockGreenHouses.get(1),
                             mockGreenHouses.get(3)
                     )
             );
-        } else if (mockToken.equals("3")) {
+        } else if (currentUserId == 1) {
             usersGreenHouses.addAll(
                     Arrays.asList(
                             mockGreenHouses.get(2),
