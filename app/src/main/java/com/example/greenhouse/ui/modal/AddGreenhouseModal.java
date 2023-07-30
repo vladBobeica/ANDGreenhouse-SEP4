@@ -27,17 +27,7 @@ public class AddGreenhouseModal extends DialogFragment {
 
         greenHouseName = rootView.findViewById(R.id.greenhouseNameEditText);
         greenHouseAddress = rootView.findViewById(R.id.greenhouseAddressEditText);
-        Button addGreenHouseButton = rootView.findViewById(R.id.addGreenHouseButton);
-        addGreenHouseButton.setOnClickListener(v -> {
-            String name = greenHouseName.getText().toString().trim();
-            String address = greenHouseAddress.getText().toString().trim();
-            if (!name.isEmpty()) {
-                // Logic here
-                dismiss();
-            } else {
-                Toast.makeText(getContext(), "Please enter the greenhouse name", Toast.LENGTH_SHORT).show();
-            }
-        });
+
 
         return rootView;
     }

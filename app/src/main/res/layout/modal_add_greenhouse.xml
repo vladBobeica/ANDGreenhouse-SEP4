@@ -30,12 +30,4 @@
         android:textSize="20sp"
         />
 
-    <Button
-        android:id="@+id/addGreenHouseButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="16dp"
-        android:text="Add Greenhouse"
-        android:backgroundTint="#B1B1B1"/>
 </LinearLayout>
