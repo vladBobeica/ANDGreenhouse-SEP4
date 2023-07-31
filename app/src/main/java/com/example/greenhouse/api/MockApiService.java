@@ -57,41 +57,33 @@ public class MockApiService implements ApiService {
     @Override
     public Call<List<GreenHouseModel>> getUserGreenHouses(String token) {
         List<GreenHouseModel> mockGreenHouses = MockGreenHouseRepository.getGreenHouses();
-
         List<GreenHouseModel> usersGreenHouses = new ArrayList<>();
 
-        // Vlad's green houses
-        if (mockToken.equals("1")) {
-            usersGreenHouses.addAll(
-                    Arrays.asList(
-                            mockGreenHouses.get(0),
-                            mockGreenHouses.get(3)
-                    )
-            );
-        } else if (mockToken.equals("2")) {
-            usersGreenHouses.addAll(
-                    Arrays.asList(
-                            mockGreenHouses.get(1),
-                            mockGreenHouses.get(3)
-                    )
-            );
-        } else if (mockToken.equals("3")) {
-            usersGreenHouses.addAll(
-                    Arrays.asList(
-                            mockGreenHouses.get(2),
-                            mockGreenHouses.get(3)
-                    )
-            );
-        } else {
-            usersGreenHouses.addAll(
-                    Arrays.asList(
-                            mockGreenHouses.get(3)
-                    )
-            );
+        // Handle specific user's greenhouses
+        if ("1".equals(mockToken)) {
+            if (mockGreenHouses.size() > 0) {
+                usersGreenHouses.add(mockGreenHouses.get(0));
+            }
+        } else if ("2".equals(mockToken)) {
+            if (mockGreenHouses.size() > 1) {
+                usersGreenHouses.add(mockGreenHouses.get(1));
+            }
+        } else if ("3".equals(mockToken)) {
+            if (mockGreenHouses.size() > 2) {
+                usersGreenHouses.add(mockGreenHouses.get(2));
+            }
+        }
+
+        // Fill with placeholder or run-time greenhouses starting from index 3
+        if (mockGreenHouses.size() > 3) {
+            for (int i = 3; i < mockGreenHouses.size(); i++) {
+                usersGreenHouses.add(mockGreenHouses.get(i));
+            }
         }
 
         return RetrofitUtils.createSuccessCall(usersGreenHouses);
     }
+
 
     @Override
     public Call<GreenHouseModel> createGreenHouse(GreenHouseModel greenhouseModel) {

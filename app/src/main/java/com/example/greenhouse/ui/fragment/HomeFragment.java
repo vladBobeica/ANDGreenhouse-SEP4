@@ -100,7 +100,7 @@ public class HomeFragment extends Fragment implements RecyclerViewInterfaceHomeG
     @Override
     public void onRecommendedMeasurementsClick(int position) {
             RecommendedMeasurementsModel selectedMeasurement = recommendedMeasurements.get(position);
-            String measurementType = selectedMeasurement.getTitle();
+            String measurementType = "";//selectedMeasurement.getTitle();
 
             switch (measurementType) {
                 case "Temperature":
@@ -142,9 +142,9 @@ public class HomeFragment extends Fragment implements RecyclerViewInterfaceHomeG
     private List<RecommendedMeasurementsModel> getHardcodedRecommendedMeasurements() {
         List<RecommendedMeasurementsModel> recommendedMeasurements = new ArrayList<>();
 
-        recommendedMeasurements.add(new RecommendedMeasurementsModel("Temperature"));
-        recommendedMeasurements.add(new RecommendedMeasurementsModel("Humidity"));
-        recommendedMeasurements.add(new RecommendedMeasurementsModel("Light"));
+//        recommendedMeasurements.add(new RecommendedMeasurementsModel("Temperature"));
+//        recommendedMeasurements.add(new RecommendedMeasurementsModel("Humidity"));
+//        recommendedMeasurements.add(new RecommendedMeasurementsModel("Light"));
 
         return recommendedMeasurements;
     }

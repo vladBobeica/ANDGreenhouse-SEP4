@@ -52,4 +52,9 @@ public class RealApiService implements ApiService {
     public Call<List<RecommendedMeasurementsModel>> getRecommendedMeasurements(String token) {
         return null;
     }
+
+    @Override
+    public Call<RecommendedMeasurementsModel> updateRecommendedMeasurements(String token, RecommendedMeasurementsModel recommendedMeasurementsModel) {
+        return null;
+    }
 }

@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -22,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.greenhouse.R;
 import com.example.greenhouse.model.GreenHouseModel;
+import com.example.greenhouse.model.RecommendedMeasurementsModel;
 import com.example.greenhouse.repository.GreenHouseRepository;
 import com.example.greenhouse.ui.adapter.GreenHouseAdapter;
 import com.example.greenhouse.ui.recyclerviewinterface.RecyclerViewInterfaceDashboard;
@@ -43,6 +45,20 @@ public class DashboardFragment extends Fragment implements RecyclerViewInterface
     private GreenHouseRepository repository;
     private GreenHouseAdapter adapter;
 
+    private EditText greenHouseName;
+    private EditText greenHouseAddress;
+
+    private EditText temperatureMinEditText;
+    private EditText temperatureMaxEditText;
+
+    private EditText humidityMinEditText;
+    private EditText humidityMaxEditText;
+
+    private EditText lightMinEditText;
+    private EditText lightMaxEditText;
+
+    private Button applyRecommendedSettingsButton;
+
     private static final String PREF_NAME = "GreenHousePrefs";
     private static final String KEY_GREENHOUSES = "greenhouses";
     private static final long CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutes
@@ -58,6 +74,7 @@ public class DashboardFragment extends Fragment implements RecyclerViewInterface
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new GreenHouseAdapter(new ArrayList<>(), this);
         recyclerView.setAdapter(adapter);
+
         return rootView;
     }
 
@@ -68,7 +85,8 @@ public class DashboardFragment extends Fragment implements RecyclerViewInterface
         sharedPreferences = requireContext().getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
 
         // Load the greenhouses from cache if available and the cache is still valid
-        if (isCacheValid()) {
+        Log.d("GreenHouses", "Fetching green houses");
+        if (isCacheValid() && false) {
             loadGreenHousesFromCache();
         } else {
             // Fetch greenhouses from the API if the cache is not valid
@@ -76,37 +94,63 @@ public class DashboardFragment extends Fragment implements RecyclerViewInterface
         }
 
         FloatingActionButton fab = view.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-                builder.setTitle("Add New Greenhouse");
-                View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.modal_add_greenhouse, null);
-                builder.setView(dialogView);
+        fab.setOnClickListener(view1 -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+            builder.setTitle("Add New Greenhouse");
+            View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.modal_add_greenhouse, null);
+            builder.setView(dialogView);
 
-                EditText nameEditText = dialogView.findViewById(R.id.greenhouseNameEditText);
-                EditText addressEditText = dialogView.findViewById(R.id.greenhouseAddressEditText);
+            EditText nameEditText = dialogView.findViewById(R.id.greenhouseNameEditText);
+            EditText addressEditText = dialogView.findViewById(R.id.greenhouseAddressEditText);
 
-                builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String name = nameEditText.getText().toString().trim();
-                        String address = addressEditText.getText().toString().trim();
+            EditText temperatureMinEditText = dialogView.findViewById(R.id.temperatureMinEditText);
+            EditText temperatureMaxEditText = dialogView.findViewById(R.id.temperatureMaxEditText);
 
-                        if (!name.isEmpty() && !address.isEmpty()) {
-                            addNewGreenHouse(name, address);
-                        } else {
-                            // Show a toast or error message indicating that both fields are required
-                            Toast.makeText(requireContext(), "Name and address are required", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+            EditText humidityMinEditText = dialogView.findViewById(R.id.humidityMinEditText);
+            EditText humidityMaxEditText = dialogView.findViewById(R.id.humidityMaxEditText);
 
-                builder.setNegativeButton("Cancel", null);
+            EditText lightMinEditText = dialogView.findViewById(R.id.lightMinEditText);
+            EditText lightMaxEditText = dialogView.findViewById(R.id.lightMaxEditText);
 
-                AlertDialog dialog = builder.create();
-                dialog.show();
-            }
+            Button applyRecommendedSettingsButton = dialogView.findViewById(R.id.applyRecommendedSettingsButton);
+
+            applyRecommendedSettingsButton.setOnClickListener(v -> {
+                Log.d("GreenHouse", "Apply button tapped");
+                temperatureMinEditText.setText("15");
+                temperatureMaxEditText.setText("25");
+
+                humidityMinEditText.setText("40");
+                humidityMaxEditText.setText("60");
+
+                lightMinEditText.setText("1000");
+                lightMaxEditText.setText("5000");
+            });
+
+            builder.setPositiveButton("Add", (dialog, which) -> {
+                String name = nameEditText.getText().toString().trim();
+                String address = addressEditText.getText().toString().trim();
+
+                String temperatureMin = temperatureMinEditText.getText().toString().trim();
+                String temperatureMax = temperatureMaxEditText.getText().toString().trim();
+
+                String humidityMin = humidityMinEditText.getText().toString().trim();
+                String humidityMax = humidityMaxEditText.getText().toString().trim();
+
+                String lightMin = lightMinEditText.getText().toString().trim();
+                String lightMax = lightMaxEditText.getText().toString().trim();
+
+                if (!name.isEmpty() && !address.isEmpty() && !temperatureMin.isEmpty() && !temperatureMax.isEmpty() && !humidityMin.isEmpty() && !humidityMax.isEmpty() && !lightMin.isEmpty() && !lightMax.isEmpty()) {
+                    addNewGreenHouse(name, address, new RecommendedMeasurementsModel(temperatureMin, temperatureMax, humidityMin, humidityMax, lightMin, lightMax));
+                } else {
+                    // Show a toast or error message indicating that both fields are required
+                    Toast.makeText(requireContext(), "Please, provide values for all the fields.", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            builder.setNegativeButton("Cancel", null);
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
         });
     }
 
@@ -236,8 +280,8 @@ public class DashboardFragment extends Fragment implements RecyclerViewInterface
         return null;
     }
 
-    private void addNewGreenHouse(String name, String address) {
-        GreenHouseModel newGreenhouse = new GreenHouseModel(name, address);
+    private void addNewGreenHouse(String name, String address, RecommendedMeasurementsModel recommendedMeasurementsModel) {
+        GreenHouseModel newGreenhouse = new GreenHouseModel(name, address, recommendedMeasurementsModel);
 
         repository.createGreenHouse(newGreenhouse, new Callback<GreenHouseModel>() {
             @Override
@@ -250,6 +294,7 @@ public class DashboardFragment extends Fragment implements RecyclerViewInterface
                         adapter.addGreenHouse(createdGreenhouse);
                         // Add the new greenhouse to the cache
                         cachedGreenhouses.add(createdGreenhouse);
+                        System.out.println("");
                     }
                 } else {
                     Log.e(TAG, "Failed to create greenhouse. Error code: " + response.code());
@@ -263,8 +308,15 @@ public class DashboardFragment extends Fragment implements RecyclerViewInterface
         });
     }
 
+    private void applyRecommendedSettings() {
+        // Set predefined values for min and max fields
+        temperatureMinEditText.setText("15");
+        temperatureMaxEditText.setText("25");
 
+        humidityMinEditText.setText("40");
+        humidityMaxEditText.setText("60");
 
-
-
+        lightMinEditText.setText("1000");
+        lightMaxEditText.setText("5000");
+    }
 }
