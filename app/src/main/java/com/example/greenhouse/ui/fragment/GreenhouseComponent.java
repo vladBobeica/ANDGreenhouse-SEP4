@@ -1,10 +1,14 @@
 package com.example.greenhouse.ui.fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,6 +23,7 @@ import com.example.greenhouse.R;
 import com.example.greenhouse.ui.adapter.MeasurementsAdapter;
 import com.example.greenhouse.databinding.FragmentGreenhouseComponentBinding;
 import com.example.greenhouse.model.MeasurementModel;
+import com.example.greenhouse.ui.modal.MinMaxValuesGreenhouse;
 import com.example.greenhouse.ui.viewmodel.GreenhouseComponentViewModel;
 
 import java.util.ArrayList;
@@ -30,6 +35,8 @@ public class GreenhouseComponent extends Fragment {
     private MeasurementsAdapter adapter;
     private GreenhouseComponentViewModel viewModel;
 
+    private ImageView greenhouseSettings;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentGreenhouseComponentBinding.inflate(inflater, container, false);
@@ -40,6 +47,8 @@ public class GreenhouseComponent extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+
+
         RecyclerView recyclerView = binding.recyclerView;
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
@@ -49,6 +58,7 @@ public class GreenhouseComponent extends Fragment {
             recyclerView.setAdapter(adapter);
         });
 
+        // Move the addSampleData call after initializing the viewModel
         viewModel.addSampleData();
 
         ImageView goBackButton = binding.goBackToDashboard;
@@ -56,7 +66,18 @@ public class GreenhouseComponent extends Fragment {
             NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main);
             navController.navigate(R.id.navigation_dashboard);
         });
-    }
+
+        greenhouseSettings = binding.settingsMeasurements;
+        greenhouseSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Create an instance of MinMaxValuesGreenhouse dialog
+                MinMaxValuesGreenhouse dialogFragment = new MinMaxValuesGreenhouse();
+                // Show the dialog
+                dialogFragment.show(getChildFragmentManager(), "MinMaxValuesDialog");
+            }
+        });
+    };
 
     @Override
     public void onDestroyView() {

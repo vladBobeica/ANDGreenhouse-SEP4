@@ -182,7 +182,7 @@ public class DashboardFragment extends Fragment implements RecyclerViewInterface
                     if (response.isSuccessful()) {
                         List<GreenHouseModel> greenhouses = response.body();
                         adapter.setGreenhouses(greenhouses);
-                        cachedGreenhouses.addAll(greenhouses); // Cache the retrieved data
+                        cachedGreenhouses.addAll(greenhouses);
                     } else {
                         Log.e(TAG, "Failed to get greenhouses. Error code: " + response.code());
                     }
