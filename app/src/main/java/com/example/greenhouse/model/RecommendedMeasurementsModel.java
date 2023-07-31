@@ -1,17 +1,58 @@
 package com.example.greenhouse.model;
 
 public class RecommendedMeasurementsModel {
-    private String title;
+    private int id;
+    private String MinTemperature;
+    private String MaxTemperature;
+    private String MinHumidity;
+    private String MaxHumidity;
+    private String MinLight;
+    private String MaxLight;
 
-
-    public RecommendedMeasurementsModel(String title) {
-        this.title = title;
-
+    public RecommendedMeasurementsModel(String minTemperature, String maxTemperature, String minHumidity, String maxHumidity, String minLight, String maxLight) {
+        MinTemperature = minTemperature;
+        MaxTemperature = maxTemperature;
+        MinHumidity = minHumidity;
+        MaxHumidity = maxHumidity;
+        MinLight = minLight;
+        MaxLight = maxLight;
     }
 
-    public String getTitle() {
-        return title;
+    public RecommendedMeasurementsModel(int id, String minTemperature, String maxTemperature, String minHumidity, String maxHumidity, String minLight, String maxLight) {
+        this.id = id;
+        MinTemperature = minTemperature;
+        MaxTemperature = maxTemperature;
+        MinHumidity = minHumidity;
+        MaxHumidity = maxHumidity;
+        MinLight = minLight;
+        MaxLight = maxLight;
     }
 
+    public int getId() {
+        return id;
+    }
 
+    public String getMinTemperature() {
+        return MinTemperature;
+    }
+
+    public String getMaxTemperature() {
+        return MaxTemperature;
+    }
+
+    public String getMinHumidity() {
+        return MinHumidity;
+    }
+
+    public String getMaxHumidity() {
+        return MaxHumidity;
+    }
+
+    public String getMinLight() {
+        return MinLight;
+    }
+
+    public String getMaxLight() {
+        return MaxLight;
+    }
 }

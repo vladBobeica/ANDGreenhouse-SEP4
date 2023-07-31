@@ -8,9 +8,11 @@ import com.example.greenhouse.model.GreenHouseModel;
 import com.example.greenhouse.model.LoginRequest;
 import com.example.greenhouse.model.LoginResponse;
 import com.example.greenhouse.model.MeasurementModel;
+import com.example.greenhouse.model.RecommendedMeasurementsModel;
 import com.example.greenhouse.model.UserModel;
 import com.example.greenhouse.repository.mock.MockGreenHouseRepository;
 import com.example.greenhouse.repository.mock.MockMeasurementRepository;
+import com.example.greenhouse.repository.mock.MockRecommendedMeasurements;
 import com.example.greenhouse.repository.mock.MockUserRepository;
 import com.example.greenhouse.utils.RetrofitUtils;
 
@@ -115,6 +117,18 @@ public class MockApiService implements ApiService {
         List<MeasurementModel> mockMeasurement = MockMeasurementRepository.getMeasurement();
 
         return RetrofitUtils.createSuccessCall(mockMeasurement);
+    }
+
+    @Override
+    public Call<List<RecommendedMeasurementsModel>> getRecommendedMeasurements(String token) {
+        List<RecommendedMeasurementsModel> mockMeasurement = MockRecommendedMeasurements.getRecommendedMeasurements();
+
+        return RetrofitUtils.createSuccessCall(mockMeasurement);
+    }
+
+    @Override
+    public Call<RecommendedMeasurementsModel> updateRecommendedMeasurements(String token, RecommendedMeasurementsModel recommendedMeasurementsModel) {
+        return RetrofitUtils.createSuccessCall(recommendedMeasurementsModel);
     }
 
     // Utility method to generate a mock token (example implementation)
