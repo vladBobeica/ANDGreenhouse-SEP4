@@ -68,6 +68,11 @@ public class GreenHouseAdapter extends RecyclerView.Adapter<GreenHouseAdapter.Gr
         }
     }
 
+    public void addGreenHouse(GreenHouseModel newGreenhouse) {
+        greenhouses.add(newGreenhouse);
+        notifyItemInserted(greenhouses.size() - 1);
+    }
+
 
     static class GreenHouseViewHolder extends RecyclerView.ViewHolder {
         private TextView nameTextView;
