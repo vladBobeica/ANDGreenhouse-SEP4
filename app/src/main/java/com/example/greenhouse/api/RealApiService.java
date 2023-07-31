@@ -34,6 +34,11 @@ public class RealApiService implements ApiService {
     }
 
     @Override
+    public Call<GreenHouseModel> getUserGreenhouseById(String token, int id) {
+        return null;
+    }
+
+    @Override
     public Call<GreenHouseModel> createGreenHouse(GreenHouseModel greenhouseModel) {
         return null;
     }

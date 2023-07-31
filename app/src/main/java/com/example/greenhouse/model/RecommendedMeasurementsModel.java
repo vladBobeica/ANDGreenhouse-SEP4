@@ -55,4 +55,32 @@ public class RecommendedMeasurementsModel {
     public String getMaxLight() {
         return MaxLight;
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setMinTemperature(String minTemperature) {
+        MinTemperature = minTemperature;
+    }
+
+    public void setMaxTemperature(String maxTemperature) {
+        MaxTemperature = maxTemperature;
+    }
+
+    public void setMinHumidity(String minHumidity) {
+        MinHumidity = minHumidity;
+    }
+
+    public void setMaxHumidity(String maxHumidity) {
+        MaxHumidity = maxHumidity;
+    }
+
+    public void setMinLight(String minLight) {
+        MinLight = minLight;
+    }
+
+    public void setMaxLight(String maxLight) {
+        MaxLight = maxLight;
+    }
 }

@@ -23,6 +23,9 @@ public interface ApiService {
     @GET("greenHouses")
     Call<List<GreenHouseModel>> getUserGreenHouses(@Header("Authorization") String token);
 
+    @GET("greenHouses")
+    Call<GreenHouseModel> getUserGreenhouseById(@Header("Authorization") String token, int id);
+
     @POST("greenHouses")
     Call<GreenHouseModel> createGreenHouse(@Body GreenHouseModel greenhouseModel);
 

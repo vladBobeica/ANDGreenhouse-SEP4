@@ -27,6 +27,11 @@ public class GreenHouseRepository {
         call.enqueue(callback);
     }
 
+    public void getGreenhouseById(int greenhouseId, Callback<GreenHouseModel> callback) {
+        Call<GreenHouseModel> call = apiService.getUserGreenhouseById("mock_token", greenhouseId);
+        call.enqueue(callback);
+    }
+
     public void createGreenHouse(GreenHouseModel greenhouseModel, Callback<GreenHouseModel> callback) {
         Call<GreenHouseModel> call = apiService.createGreenHouse(greenhouseModel);
         call.enqueue(callback);

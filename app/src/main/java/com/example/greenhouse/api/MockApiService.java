@@ -18,8 +18,8 @@ import com.example.greenhouse.utils.RetrofitUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import retrofit2.Call;
 
@@ -84,6 +84,17 @@ public class MockApiService implements ApiService {
         return RetrofitUtils.createSuccessCall(usersGreenHouses);
     }
 
+    @Override
+    public Call<GreenHouseModel> getUserGreenhouseById(String token, int id) {
+        Optional<GreenHouseModel> foundGreenhouse = MockGreenHouseRepository.getGreenHouseById(id);
+
+        if (foundGreenhouse.isPresent()) {
+            return RetrofitUtils.createSuccessCall(foundGreenhouse.get());
+        }
+
+        return RetrofitUtils.createErrorCall(404, new IOException("GreenHouse not found"));
+    }
+
 
     @Override
     public Call<GreenHouseModel> createGreenHouse(GreenHouseModel greenhouseModel) {
@@ -120,7 +131,15 @@ public class MockApiService implements ApiService {
 
     @Override
     public Call<RecommendedMeasurementsModel> updateRecommendedMeasurements(String token, RecommendedMeasurementsModel recommendedMeasurementsModel) {
-        return RetrofitUtils.createSuccessCall(recommendedMeasurementsModel);
+        Optional<GreenHouseModel> foundGreenHouseModel = MockGreenHouseRepository.getGreenHouseById(recommendedMeasurementsModel.getId());
+
+        if (foundGreenHouseModel.isPresent()) {
+            foundGreenHouseModel.get().setRecommendedMeasurementsModel(recommendedMeasurementsModel);
+
+            return RetrofitUtils.createSuccessCall(recommendedMeasurementsModel);
+        }
+
+        return RetrofitUtils.createErrorCall(404, new IOException("GreenHouse not found"));
     }
 
     // Utility method to generate a mock token (example implementation)

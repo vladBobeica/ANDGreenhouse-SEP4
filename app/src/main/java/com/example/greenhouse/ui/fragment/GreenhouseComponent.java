@@ -20,6 +20,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.greenhouse.R;
+import com.example.greenhouse.model.GreenHouseModel;
+import com.example.greenhouse.repository.GreenHouseRepository;
 import com.example.greenhouse.ui.adapter.MeasurementsAdapter;
 import com.example.greenhouse.databinding.FragmentGreenhouseComponentBinding;
 import com.example.greenhouse.model.MeasurementModel;
@@ -29,11 +31,18 @@ import com.example.greenhouse.ui.viewmodel.GreenhouseComponentViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class GreenhouseComponent extends Fragment {
 
     private FragmentGreenhouseComponentBinding binding;
     private MeasurementsAdapter adapter;
     private GreenhouseComponentViewModel viewModel;
+
+    private GreenHouseRepository repository;
+    private GreenHouseModel greenHouseModel;
 
     private ImageView greenhouseSettings;
 
@@ -47,7 +56,29 @@ public class GreenhouseComponent extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        repository = new GreenHouseRepository();
 
+        Bundle args = getArguments();
+
+        if (args != null && args.containsKey("greenhouse_id")) {
+            int selectedGreenhouseId = args.getInt("greenhouse_id");
+            repository.getGreenhouseById(selectedGreenhouseId, new Callback<GreenHouseModel>() {
+                @Override
+                public void onResponse(Call<GreenHouseModel> call, Response<GreenHouseModel> response) {
+                    if (response.isSuccessful()) {
+                        greenHouseModel = response.body();
+                        // Update your UI to display the details
+                    } else {
+                        // Handle unsuccessful response
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<GreenHouseModel> call, Throwable t) {
+                    // Handle failure (e.g., network error)
+                }
+            });
+        }
 
         RecyclerView recyclerView = binding.recyclerView;
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
@@ -71,9 +102,7 @@ public class GreenhouseComponent extends Fragment {
         greenhouseSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Create an instance of MinMaxValuesGreenhouse dialog
                 MinMaxValuesGreenhouse dialogFragment = new MinMaxValuesGreenhouse();
-                // Show the dialog
                 dialogFragment.show(getChildFragmentManager(), "MinMaxValuesDialog");
             }
         });

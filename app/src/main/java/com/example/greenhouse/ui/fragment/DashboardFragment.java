@@ -165,7 +165,7 @@ public class DashboardFragment extends Fragment implements RecyclerViewInterface
         GreenhouseComponent greenhouseComponent = new GreenhouseComponent();
 
         Bundle args = new Bundle();
-        args.putInt("position", position);
+        args.putInt("greenhouse_id", position);
         greenhouseComponent.setArguments(args);
 
         NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main);
