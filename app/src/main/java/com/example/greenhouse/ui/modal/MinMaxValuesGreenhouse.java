@@ -2,6 +2,7 @@ package com.example.greenhouse.ui.modal;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +27,7 @@ public class MinMaxValuesGreenhouse extends DialogFragment {
     private EditText lightMax;
     private Button saveChanges;
 
-    private CheckBox valuesCheck;
+    private Button applyRecommended;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -38,32 +39,18 @@ public class MinMaxValuesGreenhouse extends DialogFragment {
         humidMax = rootView.findViewById(R.id.humidityMaxEditText);
         lightMin = rootView.findViewById(R.id.lightMinEditText);
         lightMax = rootView.findViewById(R.id.lightMaxEditText);
-        valuesCheck = rootView.findViewById(R.id.temperatureKeepRecommendedCheckbox);
+        applyRecommended = rootView.findViewById(R.id.applyRecommendedSettingsButtonComp);
         saveChanges = rootView.findViewById(R.id.saveMinMaxChanges);
 
-        // Disable the EditText fields by default
-        setEditTextFieldsEnabled(false);
 
-        // Set the recommended settings values (you can replace these with your actual values)
-        double recommendedTempMin = 20.0;
-        double recommendedTempMax = 30.0;
-        tempMin.setText(String.valueOf(recommendedTempMin));
-        tempMax.setText(String.valueOf(recommendedTempMax));
+           applyRecommended.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.d("GreenHouse", "Apply button tapped");
+                    applyRecommendedSettings();
+                }
+            });
 
-        // Set the checkbox listener
-        valuesCheck.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            setEditTextFieldsEnabled(!isChecked); // Enable or disable EditText fields based on checkbox state
-            if (isChecked) {
-                // If the checkbox is checked, set the recommended settings values to the EditText fields
-                tempMin.setText(String.valueOf(recommendedTempMin));
-                tempMax.setText(String.valueOf(recommendedTempMax));
-            }
-        });
-
-        saveChanges.setOnClickListener(v -> {
-            saveMinMaxValues();
-            dismiss(); // Close the dialog after saving the values
-        });
 
         return rootView;
     }
@@ -73,6 +60,9 @@ public class MinMaxValuesGreenhouse extends DialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
         dialog.setContentView(R.layout.modal_minmax_greenhouse);
+
+
+
         if (dialog.getWindow() != null) {
             dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -81,28 +71,15 @@ public class MinMaxValuesGreenhouse extends DialogFragment {
         return dialog;
     }
 
-    // Helper method to enable or disable the EditText fields
-    private void setEditTextFieldsEnabled(boolean enabled) {
-        tempMin.setEnabled(enabled);
-        tempMax.setEnabled(enabled);
-        humidMin.setEnabled(enabled);
-        humidMax.setEnabled(enabled);
-        lightMin.setEnabled(enabled);
-        lightMax.setEnabled(enabled);
-    }
+    private void applyRecommendedSettings() {
 
-    // Method to retrieve the input values from the EditText fields when the "Save" button is clicked
-    private void saveMinMaxValues() {
-        String tempMinValue = tempMin.getText().toString();
-        String tempMaxValue = tempMax.getText().toString();
-        String humidMinValue = humidMin.getText().toString();
-        String humidMaxValue = humidMax.getText().toString();
-        String lightMinValue = lightMin.getText().toString();
-        String lightMaxValue = lightMax.getText().toString();
+        tempMin.setText("15");
+        tempMax.setText("25");
 
-        // TODO: Save the values to your desired storage or perform any other actions
+        humidMin.setText("40");
+        humidMax.setText("60");
 
-        // Show a toast message to indicate that the values are saved
-        Toast.makeText(requireContext(), "Values saved", Toast.LENGTH_SHORT).show();
+        lightMin.setText("1000");
+        lightMax.setText("5000");
     }
 }

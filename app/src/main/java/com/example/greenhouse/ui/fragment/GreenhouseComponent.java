@@ -67,15 +67,15 @@ public class GreenhouseComponent extends Fragment {
                 public void onResponse(Call<GreenHouseModel> call, Response<GreenHouseModel> response) {
                     if (response.isSuccessful()) {
                         greenHouseModel = response.body();
-                        // Update your UI to display the details
+
                     } else {
-                        // Handle unsuccessful response
+
                     }
                 }
 
                 @Override
                 public void onFailure(Call<GreenHouseModel> call, Throwable t) {
-                    // Handle failure (e.g., network error)
+
                 }
             });
         }
@@ -89,7 +89,7 @@ public class GreenhouseComponent extends Fragment {
             recyclerView.setAdapter(adapter);
         });
 
-        // Move the addSampleData call after initializing the viewModel
+
         viewModel.addSampleData();
 
         ImageView goBackButton = binding.goBackToDashboard;

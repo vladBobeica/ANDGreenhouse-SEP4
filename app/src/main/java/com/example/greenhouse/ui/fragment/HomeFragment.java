@@ -52,7 +52,7 @@ public class HomeFragment extends Fragment implements RecyclerViewInterfaceHomeG
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
-       //greenhouse list
+
         RecyclerView recyclerView = rootView.findViewById(R.id.horizontalGreenHouseRV);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
@@ -60,7 +60,7 @@ public class HomeFragment extends Fragment implements RecyclerViewInterfaceHomeG
         adapter = new HomeGreenHouseAdapter(new ArrayList<>(), this);
         recyclerView.setAdapter(adapter);
 
-        //Recommended values
+
         RecyclerView recommendedRecyclerView = rootView.findViewById(R.id.horizontalRecomValuesRV);
         LinearLayoutManager recommendedLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         recommendedRecyclerView.setLayoutManager(recommendedLayoutManager);
@@ -113,7 +113,7 @@ public class HomeFragment extends Fragment implements RecyclerViewInterfaceHomeG
                     showMeasurementAlertDialog(measurementType);
                     break;
                 default:
-                    // Handle the default case or do nothing if needed
+
                     break;
             }
         }

@@ -87,7 +87,7 @@ public class AddGreenhouseModal extends DialogFragment {
     }
 
     private void applyRecommendedSettings() {
-        // Set predefined values for min and max fields
+
         temperatureMinEditText.setText("15");
         temperatureMaxEditText.setText("25");
 

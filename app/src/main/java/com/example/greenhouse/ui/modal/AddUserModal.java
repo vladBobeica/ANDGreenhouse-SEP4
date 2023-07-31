@@ -32,7 +32,7 @@ public class AddUserModal extends DialogFragment {
             String email = userEmail.getText().toString().trim();
             String password = userPassword.getText().toString().trim();
             if (!email.isEmpty() || !password.isEmpty()) {
-                // Logic here
+
                 dismiss();
             } else {
                 Toast.makeText(getContext(), "Email or password incorrectly", Toast.LENGTH_SHORT).show();

@@ -31,14 +31,13 @@ public class MockApiService implements ApiService {
         String email = loginRequest.getEmail();
         String password = loginRequest.getPassword();
 
-        // Retrieve the mock user data
         List<UserModel> users = MockUserRepository.getUsers();
 
-        // Check if the provided email and password match any user in the mock data
+
         for (UserModel user : users) {
             if (user.getEmail().equals(email) && password.equals("111")) {
-                // Authentication successful, return a mock LoginResponse with a token
-                String token = generateMockToken(); // Generate a mock token
+
+                String token = generateMockToken();
                 LoginResponse loginResponse = new LoginResponse(token);
                 Log.d(TAG, "Mock user found");
 
@@ -49,7 +48,7 @@ public class MockApiService implements ApiService {
             }
         }
 
-        // Authentication failed, return an error response
+
         Log.d(TAG, "Mock user was not found");
         return RetrofitUtils.createErrorCall(401, new IOException("Invalid credentials"));
     }
@@ -59,7 +58,7 @@ public class MockApiService implements ApiService {
         List<GreenHouseModel> mockGreenHouses = MockGreenHouseRepository.getGreenHouses();
         List<GreenHouseModel> usersGreenHouses = new ArrayList<>();
 
-        // Handle specific user's greenhouses
+
         if ("1".equals(mockToken)) {
             if (mockGreenHouses.size() > 0) {
                 usersGreenHouses.add(mockGreenHouses.get(0));
@@ -74,7 +73,6 @@ public class MockApiService implements ApiService {
             }
         }
 
-        // Fill with placeholder or run-time greenhouses starting from index 3
         if (mockGreenHouses.size() > 3) {
             for (int i = 3; i < mockGreenHouses.size(); i++) {
                 usersGreenHouses.add(mockGreenHouses.get(i));
@@ -142,7 +140,6 @@ public class MockApiService implements ApiService {
         return RetrofitUtils.createErrorCall(404, new IOException("GreenHouse not found"));
     }
 
-    // Utility method to generate a mock token (example implementation)
     public String generateMockToken() {
         return "mock_token";
     }

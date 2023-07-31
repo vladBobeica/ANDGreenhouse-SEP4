@@ -84,12 +84,11 @@ public class DashboardFragment extends Fragment implements RecyclerViewInterface
         repository = new GreenHouseRepository();
         sharedPreferences = requireContext().getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
 
-        // Load the greenhouses from cache if available and the cache is still valid
         Log.d("GreenHouses", "Fetching green houses");
         if (isCacheValid() && false) {
             loadGreenHousesFromCache();
         } else {
-            // Fetch greenhouses from the API if the cache is not valid
+
             getAllGreenHouses();
         }
 
@@ -142,7 +141,7 @@ public class DashboardFragment extends Fragment implements RecyclerViewInterface
                 if (!name.isEmpty() && !address.isEmpty() && !temperatureMin.isEmpty() && !temperatureMax.isEmpty() && !humidityMin.isEmpty() && !humidityMax.isEmpty() && !lightMin.isEmpty() && !lightMax.isEmpty()) {
                     addNewGreenHouse(name, address, new RecommendedMeasurementsModel(temperatureMin, temperatureMax, humidityMin, humidityMax, lightMin, lightMax));
                 } else {
-                    // Show a toast or error message indicating that both fields are required
+
                     Toast.makeText(requireContext(), "Please, provide values for all the fields.", Toast.LENGTH_SHORT).show();
                 }
             });
@@ -238,7 +237,7 @@ public class DashboardFragment extends Fragment implements RecyclerViewInterface
                 }
             });
         } else {
-            // If data is already cached, use it directly without making an API call
+
             adapter.setGreenhouses(cachedGreenhouses);
         }
     }
@@ -248,13 +247,13 @@ public class DashboardFragment extends Fragment implements RecyclerViewInterface
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
-                    // Remove the greenhouse from the adapter
+
                     adapter.removeGreenHouse(greenhouseId);
 
-                    // Remove the greenhouse from the cached list
+
                     GreenHouseModel removedGreenhouse = removeGreenhouseFromCachedList(greenhouseId);
                     if (removedGreenhouse != null) {
-                        // Save the updated list to the SharedPreferences cache
+
                         saveGreenHousesToCache(cachedGreenhouses);
                     }
                 } else {
@@ -287,12 +286,12 @@ public class DashboardFragment extends Fragment implements RecyclerViewInterface
             @Override
             public void onResponse(Call<GreenHouseModel> call, Response<GreenHouseModel> response) {
                 if (response.isSuccessful()) {
-                    // The new greenhouse was successfully created and added to the server
+
                     GreenHouseModel createdGreenhouse = response.body();
                     if (createdGreenhouse != null) {
-                        // Add the new greenhouse to the adapter
+
                         adapter.addGreenHouse(createdGreenhouse);
-                        // Add the new greenhouse to the cache
+
                         cachedGreenhouses.add(createdGreenhouse);
                         System.out.println("");
                     }
