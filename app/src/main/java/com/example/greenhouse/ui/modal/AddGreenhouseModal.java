@@ -15,6 +15,15 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.greenhouse.R;
+import com.example.greenhouse.model.GreenHouseModel;
+import com.example.greenhouse.model.RecommendedMeasurementsModel;
+import com.example.greenhouse.repository.GreenHouseRepository;
+import com.example.greenhouse.ui.fragment.DashboardFragment;
+import com.example.greenhouse.utils.RecommendationUtils;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AddGreenhouseModal extends DialogFragment {
 
@@ -31,6 +40,10 @@ public class AddGreenhouseModal extends DialogFragment {
     private EditText lightMaxEditText;
 
     private Button applyRecommendedSettingsButton;
+    private Button addNewGreenhouse;
+
+    private static final String TAG = AddGreenhouseModal.class.getSimpleName();
+    private GreenHouseRepository repository;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,12 +63,32 @@ public class AddGreenhouseModal extends DialogFragment {
         lightMaxEditText = rootView.findViewById(R.id.lightMaxEditText);
 
         applyRecommendedSettingsButton = rootView.findViewById(R.id.applyRecommendedSettingsButton);
+        addNewGreenhouse = rootView.findViewById(R.id.addGreenhouseButton);
+        repository = new GreenHouseRepository();
+        applyRecommendedSettingsButton.setOnClickListener(v -> {
+            RecommendationUtils.applyRecommendedSettings(temperatureMinEditText, temperatureMaxEditText,
+                    humidityMinEditText, humidityMaxEditText, lightMinEditText, lightMaxEditText);
+        });
 
-        applyRecommendedSettingsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("GreenHouse", "Apply button tapped");
-                applyRecommendedSettings();
+        addNewGreenhouse.setOnClickListener(view -> {
+            String name = greenHouseName.getText().toString().trim();
+            String address = greenHouseAddress.getText().toString().trim();
+
+            String temperatureMin = temperatureMinEditText.getText().toString().trim();
+            String temperatureMax = temperatureMaxEditText.getText().toString().trim();
+
+            String humidityMin = humidityMinEditText.getText().toString().trim();
+            String humidityMax = humidityMaxEditText.getText().toString().trim();
+
+            String lightMin = lightMinEditText.getText().toString().trim();
+            String lightMax = lightMaxEditText.getText().toString().trim();
+
+            if (!name.isEmpty() && !address.isEmpty() && !temperatureMin.isEmpty() && !temperatureMax.isEmpty() &&
+                    !humidityMin.isEmpty() && !humidityMax.isEmpty() && !lightMin.isEmpty() && !lightMax.isEmpty()) {
+                addNewGreenHouse(name, address, new RecommendedMeasurementsModel(temperatureMin, temperatureMax,
+                        humidityMin, humidityMax, lightMin, lightMax));
+            } else {
+                Toast.makeText(requireContext(), "Please, provide values for all the fields.", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -68,16 +101,6 @@ public class AddGreenhouseModal extends DialogFragment {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
         dialog.setContentView(R.layout.modal_add_greenhouse);
 
-        applyRecommendedSettingsButton = dialog.findViewById(R.id.applyRecommendedSettingsButton);
-
-        applyRecommendedSettingsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("GreenHouse", "Apply button tapped");
-                applyRecommendedSettings();
-            }
-        });
-
         if (dialog.getWindow() != null) {
             dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -86,16 +109,32 @@ public class AddGreenhouseModal extends DialogFragment {
         return dialog;
     }
 
-    private void applyRecommendedSettings() {
+    private void addNewGreenHouse(String name, String address, RecommendedMeasurementsModel recommendedMeasurementsModel) {
+        GreenHouseModel newGreenhouse = new GreenHouseModel(name, address, recommendedMeasurementsModel);
 
-        temperatureMinEditText.setText("15");
-        temperatureMaxEditText.setText("25");
+        repository.createGreenHouse(newGreenhouse, new Callback<GreenHouseModel>() {
+            @Override
+            public void onResponse(Call<GreenHouseModel> call, Response<GreenHouseModel> response) {
+                if (response.isSuccessful()) {
+                    GreenHouseModel createdGreenhouse = response.body();
+                    if (createdGreenhouse != null) {
+                        DashboardFragment dashboardFragment = (DashboardFragment) getParentFragment();
+                        if (dashboardFragment != null) {
+                            dashboardFragment.addGreenhouseToList(createdGreenhouse);
+                        }
+                        dismiss();
+                    }
+                } else {
+                    Log.e(TAG, "Failed to create greenhouse. Error code: " + response.code());
+                    Toast.makeText(requireContext(), "Failed to add the greenhouse.", Toast.LENGTH_SHORT).show();
+                }
+            }
 
-        humidityMinEditText.setText("40");
-        humidityMaxEditText.setText("60");
-
-        lightMinEditText.setText("1000");
-        lightMaxEditText.setText("5000");
+            @Override
+            public void onFailure(Call<GreenHouseModel> call, Throwable t) {
+                Log.e(TAG, "Failed to create greenhouse. Error: " + t.getMessage());
+                Toast.makeText(requireContext(), "Failed to add the greenhouse.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
-
 }

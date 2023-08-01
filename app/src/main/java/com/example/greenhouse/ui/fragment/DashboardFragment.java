@@ -26,6 +26,8 @@ import com.example.greenhouse.model.GreenHouseModel;
 import com.example.greenhouse.model.RecommendedMeasurementsModel;
 import com.example.greenhouse.repository.GreenHouseRepository;
 import com.example.greenhouse.ui.adapter.GreenHouseAdapter;
+import com.example.greenhouse.ui.fragment.GreenhouseComponent;
+import com.example.greenhouse.ui.modal.AddGreenhouseModal;
 import com.example.greenhouse.ui.recyclerviewinterface.RecyclerViewInterfaceDashboard;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
@@ -39,32 +41,16 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-
 public class DashboardFragment extends Fragment implements RecyclerViewInterfaceDashboard {
     private static final String TAG = DashboardFragment.class.getSimpleName();
     private GreenHouseRepository repository;
     private GreenHouseAdapter adapter;
-
-    private EditText greenHouseName;
-    private EditText greenHouseAddress;
-
-    private EditText temperatureMinEditText;
-    private EditText temperatureMaxEditText;
-
-    private EditText humidityMinEditText;
-    private EditText humidityMaxEditText;
-
-    private EditText lightMinEditText;
-    private EditText lightMaxEditText;
-
-    private Button applyRecommendedSettingsButton;
 
     private static final String PREF_NAME = "GreenHousePrefs";
     private static final String KEY_GREENHOUSES = "greenhouses";
     private static final long CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutes
     private SharedPreferences sharedPreferences;
     private long lastCacheTime = 0;
-
     private List<GreenHouseModel> cachedGreenhouses = new ArrayList<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -85,74 +71,17 @@ public class DashboardFragment extends Fragment implements RecyclerViewInterface
         sharedPreferences = requireContext().getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
 
         Log.d("GreenHouses", "Fetching green houses");
-        if (isCacheValid() && false) {
+        if (isCacheValid()) {
             loadGreenHousesFromCache();
         } else {
-
             getAllGreenHouses();
         }
 
         FloatingActionButton fab = view.findViewById(R.id.fab);
         fab.setOnClickListener(view1 -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-            builder.setTitle("Add New Greenhouse");
-            View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.modal_add_greenhouse, null);
-            builder.setView(dialogView);
-
-            EditText nameEditText = dialogView.findViewById(R.id.greenhouseNameEditText);
-            EditText addressEditText = dialogView.findViewById(R.id.greenhouseAddressEditText);
-
-            EditText temperatureMinEditText = dialogView.findViewById(R.id.temperatureMinEditText);
-            EditText temperatureMaxEditText = dialogView.findViewById(R.id.temperatureMaxEditText);
-
-            EditText humidityMinEditText = dialogView.findViewById(R.id.humidityMinEditText);
-            EditText humidityMaxEditText = dialogView.findViewById(R.id.humidityMaxEditText);
-
-            EditText lightMinEditText = dialogView.findViewById(R.id.lightMinEditText);
-            EditText lightMaxEditText = dialogView.findViewById(R.id.lightMaxEditText);
-
-            Button applyRecommendedSettingsButton = dialogView.findViewById(R.id.applyRecommendedSettingsButton);
-
-            applyRecommendedSettingsButton.setOnClickListener(v -> {
-                Log.d("GreenHouse", "Apply button tapped");
-                temperatureMinEditText.setText("15");
-                temperatureMaxEditText.setText("25");
-
-                humidityMinEditText.setText("40");
-                humidityMaxEditText.setText("60");
-
-                lightMinEditText.setText("1000");
-                lightMaxEditText.setText("5000");
-            });
-
-            builder.setPositiveButton("Add", (dialog, which) -> {
-                String name = nameEditText.getText().toString().trim();
-                String address = addressEditText.getText().toString().trim();
-
-                String temperatureMin = temperatureMinEditText.getText().toString().trim();
-                String temperatureMax = temperatureMaxEditText.getText().toString().trim();
-
-                String humidityMin = humidityMinEditText.getText().toString().trim();
-                String humidityMax = humidityMaxEditText.getText().toString().trim();
-
-                String lightMin = lightMinEditText.getText().toString().trim();
-                String lightMax = lightMaxEditText.getText().toString().trim();
-
-                if (!name.isEmpty() && !address.isEmpty() && !temperatureMin.isEmpty() && !temperatureMax.isEmpty() && !humidityMin.isEmpty() && !humidityMax.isEmpty() && !lightMin.isEmpty() && !lightMax.isEmpty()) {
-                    addNewGreenHouse(name, address, new RecommendedMeasurementsModel(temperatureMin, temperatureMax, humidityMin, humidityMax, lightMin, lightMax));
-                } else {
-
-                    Toast.makeText(requireContext(), "Please, provide values for all the fields.", Toast.LENGTH_SHORT).show();
-                }
-            });
-
-            builder.setNegativeButton("Cancel", null);
-
-            AlertDialog dialog = builder.create();
-            dialog.show();
+            showAddGreenhouseDialog();
         });
     }
-
 
     @Override
     public void onDestroyView() {
@@ -179,7 +108,6 @@ public class DashboardFragment extends Fragment implements RecyclerViewInterface
             int greenhouseId = selectedGreenHouse.getId();
             Log.d(TAG, "Long clicked on position: " + position + ", greenhouseId: " + greenhouseId);
 
-
             AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
             builder.setTitle("Confirm");
             builder.setMessage("Do you want to remove this greenhouse?");
@@ -187,12 +115,12 @@ public class DashboardFragment extends Fragment implements RecyclerViewInterface
                 removeGreenHouseFromRepository(greenhouseId, position);
             });
             builder.setNegativeButton("No", (dialog, which) -> {
-
             });
             AlertDialog dialog = builder.create();
             dialog.show();
         }
     }
+
     private boolean isCacheValid() {
         long currentTime = System.currentTimeMillis();
         return (currentTime - lastCacheTime) < CACHE_DURATION_MS;
@@ -237,7 +165,6 @@ public class DashboardFragment extends Fragment implements RecyclerViewInterface
                 }
             });
         } else {
-
             adapter.setGreenhouses(cachedGreenhouses);
         }
     }
@@ -247,13 +174,9 @@ public class DashboardFragment extends Fragment implements RecyclerViewInterface
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
-
                     adapter.removeGreenHouse(greenhouseId);
-
-
                     GreenHouseModel removedGreenhouse = removeGreenhouseFromCachedList(greenhouseId);
                     if (removedGreenhouse != null) {
-
                         saveGreenHousesToCache(cachedGreenhouses);
                     }
                 } else {
@@ -279,43 +202,14 @@ public class DashboardFragment extends Fragment implements RecyclerViewInterface
         return null;
     }
 
-    private void addNewGreenHouse(String name, String address, RecommendedMeasurementsModel recommendedMeasurementsModel) {
-        GreenHouseModel newGreenhouse = new GreenHouseModel(name, address, recommendedMeasurementsModel);
-
-        repository.createGreenHouse(newGreenhouse, new Callback<GreenHouseModel>() {
-            @Override
-            public void onResponse(Call<GreenHouseModel> call, Response<GreenHouseModel> response) {
-                if (response.isSuccessful()) {
-
-                    GreenHouseModel createdGreenhouse = response.body();
-                    if (createdGreenhouse != null) {
-
-                        adapter.addGreenHouse(createdGreenhouse);
-
-                        cachedGreenhouses.add(createdGreenhouse);
-                        System.out.println("");
-                    }
-                } else {
-                    Log.e(TAG, "Failed to create greenhouse. Error code: " + response.code());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<GreenHouseModel> call, Throwable t) {
-                Log.e(TAG, "Failed to create greenhouse. Error: " + t.getMessage());
-            }
-        });
+    private void showAddGreenhouseDialog() {
+        AddGreenhouseModal addGreenhouseModal = new AddGreenhouseModal();
+        addGreenhouseModal.show(getChildFragmentManager(), "AddGreenhouseModal");
     }
 
-    private void applyRecommendedSettings() {
-        // Set predefined values for min and max fields
-        temperatureMinEditText.setText("15");
-        temperatureMaxEditText.setText("25");
-
-        humidityMinEditText.setText("40");
-        humidityMaxEditText.setText("60");
-
-        lightMinEditText.setText("1000");
-        lightMaxEditText.setText("5000");
+    public void addGreenhouseToList(GreenHouseModel newGreenhouse) {
+        adapter.addGreenHouse(newGreenhouse);
+        cachedGreenhouses.add(newGreenhouse);
+        saveGreenHousesToCache(cachedGreenhouses);
     }
 }

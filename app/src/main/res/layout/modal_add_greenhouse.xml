@@ -149,12 +149,33 @@
 
     </LinearLayout>
 
-
-    <Button
-        android:id="@+id/applyRecommendedSettingsButton"
-        style="@style/Widget.AppCompat.Button.Small"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Apply recommended settings" />
+        android:padding="14dp">
+
+        <Button
+            android:id="@+id/applyRecommendedSettingsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Apply recommended settings"
+            app:layout_constraintStart_toStartOf="parent"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toStartOf="@+id/addGreenhouseButton"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <Button
+            android:id="@+id/addGreenhouseButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/applyRecommendedSettingsButton"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
 </LinearLayout>
