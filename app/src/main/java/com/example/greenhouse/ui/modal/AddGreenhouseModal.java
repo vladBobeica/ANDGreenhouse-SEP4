@@ -85,6 +85,16 @@ public class AddGreenhouseModal extends DialogFragment {
 
             if (!name.isEmpty() && !address.isEmpty() && !temperatureMin.isEmpty() && !temperatureMax.isEmpty() &&
                     !humidityMin.isEmpty() && !humidityMax.isEmpty() && !lightMin.isEmpty() && !lightMax.isEmpty()) {
+                Log.d(TAG, "Adding new greenhouse with the following values:");
+                Log.d(TAG, "Name: " + name);
+                Log.d(TAG, "Address: " + address);
+                Log.d(TAG, "Temperature Min: " + temperatureMin);
+                Log.d(TAG, "Temperature Max: " + temperatureMax);
+                Log.d(TAG, "Humidity Min: " + humidityMin);
+                Log.d(TAG, "Humidity Max: " + humidityMax);
+                Log.d(TAG, "Light Min: " + lightMin);
+                Log.d(TAG, "Light Max: " + lightMax);
+
                 addNewGreenHouse(name, address, new RecommendedMeasurementsModel(temperatureMin, temperatureMax,
                         humidityMin, humidityMax, lightMin, lightMax));
             } else {
