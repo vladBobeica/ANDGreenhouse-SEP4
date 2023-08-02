@@ -35,7 +35,7 @@ public class MinMaxValuesGreenhouse extends DialogFragment {
     private Button saveChanges;
 
     private Button applyRecommended;
-
+    private int selectedGreenhouseId;
     private MeasurementRepository repository;
 
     @Override
@@ -55,7 +55,7 @@ public class MinMaxValuesGreenhouse extends DialogFragment {
 
         Bundle args = getArguments();
         if (args != null && args.containsKey("selected_greenhouse_id")) {
-            int selectedGreenhouseId = args.getInt("selected_greenhouse_id");
+            selectedGreenhouseId = args.getInt("selected_greenhouse_id");
             Log.d("MinMaxValues", "Selected greenhouse ID: " + selectedGreenhouseId);
             repository = new MeasurementRepository();
 
@@ -105,6 +105,15 @@ public class MinMaxValuesGreenhouse extends DialogFragment {
             }
         });
 
+        saveChanges.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("GreenHouse", "Save Changes button tapped");
+                saveChangesSettings();
+
+            }
+        });
+
         return rootView;
     }
 
@@ -133,4 +142,41 @@ public class MinMaxValuesGreenhouse extends DialogFragment {
         lightMin.setText("1000");
         lightMax.setText("5000");
     }
+
+    private void saveChangesSettings() {
+        String tempMinValue = tempMin.getText().toString();
+        String tempMaxValue = tempMax.getText().toString();
+        String humidMinValue = humidMin.getText().toString();
+        String humidMaxValue = humidMax.getText().toString();
+        String lightMinValue = lightMin.getText().toString();
+        String lightMaxValue = lightMax.getText().toString();
+
+        RecommendedMeasurementsModel updatedMeasurements = new RecommendedMeasurementsModel(
+                selectedGreenhouseId,
+                tempMinValue,
+                tempMaxValue,
+                humidMinValue,
+                humidMaxValue,
+                lightMinValue,
+                lightMaxValue
+        );
+
+        repository.updateRecommendedMeasurements(updatedMeasurements, new Callback<RecommendedMeasurementsModel>() {
+            @Override
+            public void onResponse(Call<RecommendedMeasurementsModel> call, Response<RecommendedMeasurementsModel> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(requireContext(), "Recommended measurements updated successfully", Toast.LENGTH_SHORT).show();
+                } else {
+                    Log.e("GreenHouse", "Failed to update recommended measurements. Error code: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RecommendedMeasurementsModel> call, Throwable t) {
+                Log.e("GreenHouse", "Failed to update recommended measurements. Error: " + t.getMessage());
+            }
+        });
+    }
+
 }
+

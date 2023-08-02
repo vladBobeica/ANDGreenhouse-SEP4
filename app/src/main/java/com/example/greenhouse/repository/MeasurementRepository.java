@@ -35,6 +35,8 @@ public class MeasurementRepository {
 
     public void updateRecommendedMeasurements(RecommendedMeasurementsModel recommendedMeasurementsModel, Callback<RecommendedMeasurementsModel> callback) {
         Call<RecommendedMeasurementsModel> call = apiService.updateRecommendedMeasurements("mock", recommendedMeasurementsModel);
+        call.enqueue(callback);
     }
+
 
 }
