@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -16,6 +15,14 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.greenhouse.R;
+import com.example.greenhouse.model.RecommendedMeasurementsModel;
+import com.example.greenhouse.repository.MeasurementRepository;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MinMaxValuesGreenhouse extends DialogFragment {
 
@@ -29,10 +36,14 @@ public class MinMaxValuesGreenhouse extends DialogFragment {
 
     private Button applyRecommended;
 
+    private MeasurementRepository repository;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.modal_minmax_greenhouse, container, false);
+        Log.d("MinMaxValues", "onCreateView: Fragment created");
+
         tempMin = rootView.findViewById(R.id.temperatureMinEditText);
         tempMax = rootView.findViewById(R.id.temperatureMaxEditText);
         humidMin = rootView.findViewById(R.id.humidityMinEditText);
@@ -42,15 +53,57 @@ public class MinMaxValuesGreenhouse extends DialogFragment {
         applyRecommended = rootView.findViewById(R.id.applyRecommendedSettingsButtonComp);
         saveChanges = rootView.findViewById(R.id.saveMinMaxChanges);
 
+        Bundle args = getArguments();
+        if (args != null && args.containsKey("selected_greenhouse_id")) {
+            int selectedGreenhouseId = args.getInt("selected_greenhouse_id");
+            Log.d("MinMaxValues", "Selected greenhouse ID: " + selectedGreenhouseId);
+            repository = new MeasurementRepository();
 
-           applyRecommended.setOnClickListener(new View.OnClickListener() {
+            repository.getRecommendedMeasurement(new Callback<List<RecommendedMeasurementsModel>>() {
                 @Override
-                public void onClick(View view) {
-                    Log.d("GreenHouse", "Apply button tapped");
-                    applyRecommendedSettings();
+                public void onResponse(Call<List<RecommendedMeasurementsModel>> call, Response<List<RecommendedMeasurementsModel>> response) {
+                    if (response.isSuccessful()) {
+                        List<RecommendedMeasurementsModel> recommendedMeasurementsList = response.body();
+
+                        Log.d("GreenHouse", "Recommended measurements list size: " + recommendedMeasurementsList.size());
+
+                        for (RecommendedMeasurementsModel recommendedMeasurements : recommendedMeasurementsList) {
+                            Log.d("GreenHouse", "Recommended measurements ID: " + recommendedMeasurements.getId());
+                            Log.d("MinMaxValues", "selectedGreenhouseId: " + selectedGreenhouseId);
+                            if (recommendedMeasurements.getId() == selectedGreenhouseId) {
+                                Log.d("MinMaxValues", "Populating EditText fields with recommended measurements");
+                                tempMin.setText(String.valueOf(recommendedMeasurements.getMinTemperature()));
+                                tempMax.setText(String.valueOf(recommendedMeasurements.getMaxTemperature()));
+                                humidMin.setText(String.valueOf(recommendedMeasurements.getMinHumidity()));
+                                humidMax.setText(String.valueOf(recommendedMeasurements.getMaxHumidity()));
+                                lightMin.setText(String.valueOf(recommendedMeasurements.getMinLight()));
+                                lightMax.setText(String.valueOf(recommendedMeasurements.getMaxLight()));
+                                Log.d("MinMaxValues", "Populated EditText fields with recommended measurements");
+                                break;
+                            } else {
+                                Log.d("MinMaxValues", "ID did not match");
+                            }
+                        }
+                    } else {
+                        Log.e("GreenHouse", "Failed to get recommended measurements. Error code: " + response.code());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<List<RecommendedMeasurementsModel>> call, Throwable t) {
+                    Log.e("GreenHouse", "Failed to get recommended measurements. Error: " + t.getMessage());
                 }
             });
 
+        }
+
+        applyRecommended.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("GreenHouse", "Apply button tapped");
+                applyRecommendedSettings();
+            }
+        });
 
         return rootView;
     }
@@ -60,8 +113,6 @@ public class MinMaxValuesGreenhouse extends DialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
         dialog.setContentView(R.layout.modal_minmax_greenhouse);
-
-
 
         if (dialog.getWindow() != null) {
             dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,

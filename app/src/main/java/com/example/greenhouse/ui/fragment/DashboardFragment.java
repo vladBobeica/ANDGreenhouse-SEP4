@@ -90,14 +90,20 @@ public class DashboardFragment extends Fragment implements RecyclerViewInterface
 
     @Override
     public void onItemClick(int position) {
+        Log.d("DashboardFragment", "Clicked on position: " + position);
         GreenhouseComponent greenhouseComponent = new GreenhouseComponent();
 
-        Bundle args = new Bundle();
-        args.putInt("greenhouse_id", position);
-        greenhouseComponent.setArguments(args);
+        GreenHouseModel selectedGreenhouse = adapter.getGreenHouse(position);
+        if (selectedGreenhouse != null) {
+            int selectedGreenhouseId = selectedGreenhouse.getId();
 
-        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main);
-        navController.navigate(R.id.navigation_gh_component, args);
+            Bundle args = new Bundle();
+            args.putInt("greenhouse_id", selectedGreenhouseId);
+            greenhouseComponent.setArguments(args);
+
+            NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main);
+            navController.navigate(R.id.navigation_gh_component, args);
+        }
     }
 
     @Override

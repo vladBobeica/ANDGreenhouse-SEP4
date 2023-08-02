@@ -9,8 +9,11 @@ public class MockRecommendedMeasurements {
     private static final List<RecommendedMeasurementsModel> measurements = new ArrayList<>();
 
     static {
-        measurements.add(new RecommendedMeasurementsModel(1,"15", "25", "103", "110", "12", "20"));
-        measurements.add(new RecommendedMeasurementsModel(2,"10", "30", "100", "110", "15", "30"));
+        measurements.add(new RecommendedMeasurementsModel(1,"20", "20", "21", "21", "22", "22"));
+        measurements.add(new RecommendedMeasurementsModel(2,"15", "15", "16", "16", "17", "17"));
+        measurements.add(new RecommendedMeasurementsModel(3,"13", "13", "12", "12", "11", "11"));
+        measurements.add(new RecommendedMeasurementsModel(4,"2", "2", "3", "3", "4", "4"));
+
     }
 
     public static  List<RecommendedMeasurementsModel> getRecommendedMeasurements() {

@@ -41,7 +41,6 @@ public class MockApiService implements ApiService {
                 LoginResponse loginResponse = new LoginResponse(token);
                 Log.d(TAG, "Mock user found");
 
-                // Store token in mock
                 mockToken = String.valueOf(user.getId());
 
                 return RetrofitUtils.createSuccessCall(loginResponse);

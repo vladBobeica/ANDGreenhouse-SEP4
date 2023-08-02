@@ -3,6 +3,7 @@ package com.example.greenhouse.ui.fragment;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +46,7 @@ public class GreenhouseComponent extends Fragment {
     private GreenHouseModel greenHouseModel;
 
     private ImageView greenhouseSettings;
+    private int selectedGreenhouseId; // Declare the variable at the class level
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -61,13 +63,13 @@ public class GreenhouseComponent extends Fragment {
         Bundle args = getArguments();
 
         if (args != null && args.containsKey("greenhouse_id")) {
-            int selectedGreenhouseId = args.getInt("greenhouse_id");
+            selectedGreenhouseId = args.getInt("greenhouse_id"); // Assign the value here
+            Log.d("GreenhouseComponent", "Selected greenhouse ID: " + selectedGreenhouseId);
             repository.getGreenhouseById(selectedGreenhouseId, new Callback<GreenHouseModel>() {
                 @Override
                 public void onResponse(Call<GreenHouseModel> call, Response<GreenHouseModel> response) {
                     if (response.isSuccessful()) {
                         greenHouseModel = response.body();
-
                     } else {
 
                     }
@@ -89,7 +91,6 @@ public class GreenhouseComponent extends Fragment {
             recyclerView.setAdapter(adapter);
         });
 
-
         viewModel.addSampleData();
 
         ImageView goBackButton = binding.goBackToDashboard;
@@ -103,10 +104,16 @@ public class GreenhouseComponent extends Fragment {
             @Override
             public void onClick(View view) {
                 MinMaxValuesGreenhouse dialogFragment = new MinMaxValuesGreenhouse();
+
+                // Pass the selected greenhouse ID to the dialogFragment
+                Bundle bundle = new Bundle();
+                bundle.putInt("selected_greenhouse_id", selectedGreenhouseId);
+                dialogFragment.setArguments(bundle);
+
                 dialogFragment.show(getChildFragmentManager(), "MinMaxValuesDialog");
             }
         });
-    };
+    }
 
     @Override
     public void onDestroyView() {
@@ -114,4 +121,3 @@ public class GreenhouseComponent extends Fragment {
         binding = null;
     }
 }
-

@@ -11,10 +11,10 @@ public class MockGreenHouseRepository {
     private static final List<GreenHouseModel> greenHouses = new ArrayList<>();
 
     static {
-        greenHouses.add(new GreenHouseModel(1, "Vlad's Garden", "Horsens, Gasvej 11", new RecommendedMeasurementsModel(1,"15", "25", "103", "110", "12", "20")));
+        greenHouses.add(new GreenHouseModel(1, "Vlad's Garden", "Horsens, Gasvej 11", new RecommendedMeasurementsModel(1,"100", "250", "153", "160", "16", "200")));
         greenHouses.add(new GreenHouseModel(2, "Alin's Potato Farm", "Vejle, Sundvej 22", new RecommendedMeasurementsModel(2,"15", "25", "103", "110", "12", "20")));
         greenHouses.add(new GreenHouseModel(3, "Eggplant Farm", "Vejle, Sundvej 22", new RecommendedMeasurementsModel(3,"15", "25", "103", "110", "12", "20")));
-        greenHouses.add(new GreenHouseModel(4, "Chicken Farm", "Vejle, Sundvej 22", new RecommendedMeasurementsModel(4,"15", "25", "103", "110", "12", "20")));
+        greenHouses.add(new GreenHouseModel(4, "Chicken Farm", "Vejle, Sundvej 22", new RecommendedMeasurementsModel(4,"10", "30", "140", "150", "20", "50")));
     }
 
     public static List<GreenHouseModel> getGreenHouses() {
@@ -22,10 +22,11 @@ public class MockGreenHouseRepository {
     }
 
     public static GreenHouseModel addGreenHouse(GreenHouseModel greenHouseToCreate) {
-        int newId = generateNewId();
+        int newGreenHouseId = generateNewId();
+        int newRecommendedMeasurementsId = generateNewId();
 
-        greenHouseToCreate.setId(newId);
-        greenHouseToCreate.getRecommendedMeasurementsModel().setId(newId);
+        greenHouseToCreate.setId(newGreenHouseId);
+        greenHouseToCreate.getRecommendedMeasurementsModel().setId(newRecommendedMeasurementsId);
 
         greenHouses.add(greenHouseToCreate);
 
