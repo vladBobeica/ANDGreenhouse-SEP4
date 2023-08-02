@@ -138,8 +138,13 @@ public class MockApiService implements ApiService {
 
         return RetrofitUtils.createErrorCall(404, new IOException("GreenHouse not found"));
     }
+    public static void setMockToken(String token) {
+        mockToken = token;
+    }
 
     public String generateMockToken() {
         return "mock_token";
     }
+
+
 }

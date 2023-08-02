@@ -1,14 +1,19 @@
 package com.example.greenhouse.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.greenhouse.R;
+import com.example.greenhouse.api.MockApiService;
+import com.example.greenhouse.ui.activity.IntroductionActivity;
 import com.example.greenhouse.ui.adapter.OptionsAdapter;
 import com.example.greenhouse.ui.modal.AddUserModal;
 
@@ -28,9 +33,8 @@ public class SettingsFragment extends Fragment {
         settingsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         List<String> optionsList = new ArrayList<>();
-        optionsList.add("Add users");
-        optionsList.add("View users list");
-        optionsList.add("Edit profile");
+
+
         optionsList.add("Sign out");
 
         optionsAdapter = new OptionsAdapter(optionsList, position -> onItemClick(position));
@@ -41,7 +45,7 @@ public class SettingsFragment extends Fragment {
 
     private void onItemClick(int position) {
         if (position == 0) {
-            showAddUserModal();
+            signOut();
         }
     }
 
@@ -49,4 +53,15 @@ public class SettingsFragment extends Fragment {
         AddUserModal addUserModal = new AddUserModal();
         addUserModal.show(getChildFragmentManager(), "addUserModal");
     }
+
+    private void signOut() {
+        MockApiService.setMockToken(null);
+        Toast.makeText(requireContext(), "Logged out", Toast.LENGTH_SHORT).show();
+
+        Intent intent = new Intent(requireContext(), IntroductionActivity.class);
+        startActivity(intent);
+
+        requireActivity().finish();
+    }
+
 }
