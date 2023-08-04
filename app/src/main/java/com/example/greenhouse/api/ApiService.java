@@ -5,6 +5,7 @@ import com.example.greenhouse.model.LoginRequest;
 import com.example.greenhouse.model.LoginResponse;
 import com.example.greenhouse.model.MeasurementModel;
 import com.example.greenhouse.model.RecommendedMeasurementsModel;
+import com.example.greenhouse.model.UserModel;
 
 import java.util.List;
 
@@ -40,4 +41,7 @@ public interface ApiService {
 
     @POST("recommendedMeasurement")
     Call<RecommendedMeasurementsModel> updateRecommendedMeasurements(@Header("Authorization") String token, @Body RecommendedMeasurementsModel recommendedMeasurementsModel);
+
+    @POST("user")
+    Call<UserModel> updateUserProfile(@Header("Authorization") String token, @Body UserModel userModel);
 }

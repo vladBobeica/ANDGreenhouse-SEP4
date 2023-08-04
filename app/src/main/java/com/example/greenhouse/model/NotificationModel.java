@@ -1,14 +1,15 @@
 package com.example.greenhouse.model;
 
 public class NotificationModel {
-    private  int id;
+    private int id;
+    private String greenhouseName;
+    private String exceededParameter;
     private String message;
 
-    private String greenhouseName;
-
-    public NotificationModel(int id, String greenhouseName, String message) {
+    public NotificationModel(int id, String greenhouseName, String exceededParameter, String message) {
         this.id = id;
         this.greenhouseName = greenhouseName;
+        this.exceededParameter = exceededParameter;
         this.message = message;
     }
 
@@ -36,7 +37,13 @@ public class NotificationModel {
         this.greenhouseName = greenhouseName;
     }
 
+    public String getExceededParameter() {
+        return exceededParameter;
+    }
 
+    public void setExceededParameter(String exceededParameter) {
+        this.exceededParameter = exceededParameter;
+    }
 
 
 

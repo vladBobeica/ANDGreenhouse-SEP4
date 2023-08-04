@@ -1,6 +1,5 @@
 package com.example.greenhouse.ui.fragment;
 
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,10 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -30,7 +27,6 @@ import com.example.greenhouse.ui.modal.MinMaxValuesGreenhouse;
 import com.example.greenhouse.ui.viewmodel.GreenhouseComponentViewModel;
 import com.example.greenhouse.utils.AlertManager;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -120,52 +116,7 @@ public class GreenhouseComponent extends Fragment {
             }
         });
 
-        viewModel.getMeasurementList().observe(getViewLifecycleOwner(), measurements -> {
-            adapter = new MeasurementsAdapter(measurements);
-            recyclerView.setAdapter(adapter);
-
-            AlertManager alertManager = new AlertManager(requireContext());
-            RecommendedMeasurementsModel recommendedValues = greenHouseModel.getRecommendedMeasurementsModel();
-
-            for (MeasurementModel measurement : measurements) {
-                alertManager.checkAndSendAlerts(measurement, recommendedValues);
-            }
-        });
-
-
-        checkPermissionAndHandle();
-
         return binding.getRoot();
-    }
-
-
-    private void checkPermissionAndHandle() {
-        if (ActivityCompat.checkSelfPermission(requireContext(), android.Manifest.permission.INTERNET)
-                == PackageManager.PERMISSION_GRANTED) {
-            viewModel.addSampleData();
-        } else {
-            requestInternetPermission();
-        }
-    }
-
-    private void requestInternetPermission() {
-        ActivityCompat.requestPermissions(requireActivity(),
-                new String[]{android.Manifest.permission.INTERNET},
-                AlertManager.INTERNET_PERMISSION_REQUEST_CODE);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        if (requestCode == AlertManager.INTERNET_PERMISSION_REQUEST_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                viewModel.addSampleData();
-            } else {
-
-                Toast.makeText(requireContext(), "Permission denied. Cannot show alerts.", Toast.LENGTH_SHORT).show();
-            }
-        }
     }
 
     @Override

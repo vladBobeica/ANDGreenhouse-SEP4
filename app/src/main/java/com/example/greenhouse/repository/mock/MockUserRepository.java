@@ -17,4 +17,14 @@ public class MockUserRepository {
     public static List<UserModel> getUsers() {
         return users;
     }
+
+    public static UserModel getUserById(String token) {
+        for (UserModel user : users) {
+            if (String.valueOf(user.getId()).equals(token)) {
+                return user;
+            }
+        }
+        return null;
+    }
+
 }

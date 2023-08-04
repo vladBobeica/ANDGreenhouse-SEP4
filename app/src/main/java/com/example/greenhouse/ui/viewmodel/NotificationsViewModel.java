@@ -13,19 +13,21 @@ import java.util.List;
 public class NotificationsViewModel extends ViewModel {
 
     private MutableLiveData<List<NotificationModel>> notificationsLiveData = new MutableLiveData<>();
-
+    private List<NotificationModel> notificationsList = new ArrayList<>();
     public NotificationsViewModel() {
         List<NotificationModel> initialNotifications = new ArrayList<>();
 
-        initialNotifications.add(new NotificationModel(1, "Vlad's garden", "Alert 1"));
-        initialNotifications.add(new NotificationModel(2,  "Alin's garden","Alert 2"));
-        initialNotifications.add(new NotificationModel(3, "Pula=n cur", "Alert 3"));
+        initialNotifications.add(new NotificationModel(1, "Vlad's garden", "Temperature", "Temperature is too low!"));
+        initialNotifications.add(new NotificationModel(2, "Alin's garden", "Humidity", "Humidity is too high!"));
+        initialNotifications.add(new NotificationModel(3, "Pula=n cur", "Light", "Light is too low!"));
 
-        notificationsLiveData.setValue(initialNotifications);
     }
-
     public LiveData<List<NotificationModel>> getNotifications() {
         return notificationsLiveData;
+    }
+    public void addNotification(NotificationModel notification) {
+        notificationsList.add(notification);
+        notificationsLiveData.setValue(notificationsList);
     }
 }
 

@@ -53,6 +53,22 @@ public class MockApiService implements ApiService {
     }
 
     @Override
+    public Call<UserModel> updateUserProfile(String token, UserModel userModel) {
+        UserModel loggedInUser = MockUserRepository.getUserById(token);
+
+        if (loggedInUser != null) {
+            loggedInUser.setEmail(userModel.getEmail());
+            loggedInUser.setFirstName(userModel.getFirstName());
+            loggedInUser.setLastName(userModel.getLastName());
+
+            return RetrofitUtils.createSuccessCall(loggedInUser);
+        }
+
+        return RetrofitUtils.createErrorCall(404, new IOException("User not found"));
+    }
+
+
+    @Override
     public Call<List<GreenHouseModel>> getUserGreenHouses(String token) {
         List<GreenHouseModel> mockGreenHouses = MockGreenHouseRepository.getGreenHouses();
         List<GreenHouseModel> usersGreenHouses = new ArrayList<>();
@@ -144,6 +160,11 @@ public class MockApiService implements ApiService {
 
     public String generateMockToken() {
         return "mock_token";
+    }
+
+
+    public static String getMockToken() {
+        return mockToken;
     }
 
 

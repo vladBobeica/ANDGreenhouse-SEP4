@@ -5,6 +5,7 @@ import com.example.greenhouse.model.LoginRequest;
 import com.example.greenhouse.model.LoginResponse;
 import com.example.greenhouse.model.MeasurementModel;
 import com.example.greenhouse.model.RecommendedMeasurementsModel;
+import com.example.greenhouse.model.UserModel;
 
 import java.util.List;
 
@@ -61,5 +62,10 @@ public class RealApiService implements ApiService {
     @Override
     public Call<RecommendedMeasurementsModel> updateRecommendedMeasurements(String token, RecommendedMeasurementsModel recommendedMeasurementsModel) {
         return null;
+    }
+
+    @Override
+    public Call<UserModel> updateUserProfile(String token, UserModel userModel) {
+        return apiService.updateUserProfile(token, userModel);
     }
 }
