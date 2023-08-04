@@ -79,7 +79,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="395" />
+                    android:text="395"
+                    android:id="@+id/textTemperatureValue"/>
 
             </LinearLayout>
 
@@ -107,7 +108,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="200" />
+                    android:text="200"
+                    android:id="@+id/textHumidityValue"/>
 
             </LinearLayout>
 
@@ -135,7 +137,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="150" />
+                    android:text="150"
+                    android:id="@+id/textLightValue"/>
 
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
