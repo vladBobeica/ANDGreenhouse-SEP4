@@ -18,7 +18,7 @@ public class RealApiService implements ApiService {
 
     public RealApiService() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://api.com/")
+                .baseUrl("https://api.com/greenhouse")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         apiService = retrofit.create(ApiService.class);
