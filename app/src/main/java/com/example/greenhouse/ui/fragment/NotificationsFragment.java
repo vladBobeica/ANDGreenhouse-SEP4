@@ -17,7 +17,7 @@ import com.example.greenhouse.model.MeasurementModel;
 import com.example.greenhouse.model.NotificationModel;
 import com.example.greenhouse.model.RecommendedMeasurementsModel;
 import com.example.greenhouse.ui.adapter.NotificationsAdapter;
-import com.example.greenhouse.ui.viewmodel.NotificationsViewModel;
+import com.example.greenhouse.viewmodel.NotificationsViewModel;
 import com.example.greenhouse.utils.AlertManager;
 
 import java.util.ArrayList;

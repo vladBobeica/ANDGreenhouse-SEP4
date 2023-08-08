@@ -1,4 +1,4 @@
-package com.example.greenhouse.ui.viewmodel;
+package com.example.greenhouse.viewmodel;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

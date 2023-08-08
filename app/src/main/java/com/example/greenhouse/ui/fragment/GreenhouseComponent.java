@@ -17,21 +17,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.greenhouse.R;
-import com.example.greenhouse.model.GreenHouseModel;
 import com.example.greenhouse.model.MeasurementModel;
-import com.example.greenhouse.model.RecommendedMeasurementsModel;
 import com.example.greenhouse.repository.GreenHouseRepository;
 import com.example.greenhouse.ui.adapter.MeasurementsAdapter;
 import com.example.greenhouse.databinding.FragmentGreenhouseComponentBinding;
 import com.example.greenhouse.ui.modal.MinMaxValuesGreenhouse;
-import com.example.greenhouse.ui.viewmodel.GreenhouseComponentViewModel;
-import com.example.greenhouse.utils.AlertManager;
+import com.example.greenhouse.viewmodel.GreenhouseComponentViewModel;
 
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class GreenhouseComponent extends Fragment {
 
@@ -40,9 +33,6 @@ public class GreenhouseComponent extends Fragment {
     private GreenhouseComponentViewModel viewModel;
 
     private GreenHouseRepository repository;
-    private GreenHouseModel greenHouseModel;
-
-    private ImageView greenhouseSettings;
     private int selectedGreenhouseId;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -52,49 +42,18 @@ public class GreenhouseComponent extends Fragment {
         repository = new GreenHouseRepository();
 
         Bundle args = getArguments();
-
         if (args != null && args.containsKey("greenhouse_id")) {
             selectedGreenhouseId = args.getInt("greenhouse_id");
             Log.d("GreenhouseComponent", "Selected greenhouse ID: " + selectedGreenhouseId);
-            repository.getGreenhouseById(selectedGreenhouseId, new Callback<GreenHouseModel>() {
-                @Override
-                public void onResponse(Call<GreenHouseModel> call, Response<GreenHouseModel> response) {
-                    if (response.isSuccessful()) {
-                        greenHouseModel = response.body();
-                    } else {
-
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<GreenHouseModel> call, Throwable t) {
-
-                }
-            });
         }
 
         RecyclerView recyclerView = binding.recyclerView;
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
         viewModel = new ViewModelProvider(this).get(GreenhouseComponentViewModel.class);
-        viewModel.getMeasurementList().observe(getViewLifecycleOwner(), measurements -> {
-            adapter = new MeasurementsAdapter(measurements);
-            recyclerView.setAdapter(adapter);
+        viewModel.getMeasurementList().observe(getViewLifecycleOwner(), this::updateUI);
 
-            if (!measurements.isEmpty()) {
-                MeasurementModel latestMeasurement = measurements.get(0);
-
-                TextView temperatureTextView = binding.textTemperatureValue;
-                TextView humidityTextView = binding.textHumidityValue;
-                TextView lightTextView = binding.textLightValue;
-
-                temperatureTextView.setText(latestMeasurement.getTemperature());
-                humidityTextView.setText(latestMeasurement.getHumidity());
-                lightTextView.setText(latestMeasurement.getLight());
-            }
-        });
-
-        viewModel.addSampleData();
+        viewModel.fetchMeasurements();
 
         ImageView goBackButton = binding.goBackToDashboard;
         goBackButton.setOnClickListener(v -> {
@@ -102,21 +61,35 @@ public class GreenhouseComponent extends Fragment {
             navController.navigate(R.id.navigation_dashboard);
         });
 
-        greenhouseSettings = binding.settingsMeasurements;
-        greenhouseSettings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                MinMaxValuesGreenhouse dialogFragment = new MinMaxValuesGreenhouse();
+        ImageView greenhouseSettings = binding.settingsMeasurements;
+        greenhouseSettings.setOnClickListener(view -> {
+            MinMaxValuesGreenhouse dialogFragment = new MinMaxValuesGreenhouse();
 
-                Bundle bundle = new Bundle();
-                bundle.putInt("selected_greenhouse_id", selectedGreenhouseId);
-                dialogFragment.setArguments(bundle);
+            Bundle bundle = new Bundle();
+            bundle.putInt("selected_greenhouse_id", selectedGreenhouseId);
+            dialogFragment.setArguments(bundle);
 
-                dialogFragment.show(getChildFragmentManager(), "MinMaxValuesDialog");
-            }
+            dialogFragment.show(getChildFragmentManager(), "MinMaxValuesDialog");
         });
 
         return binding.getRoot();
+    }
+
+    private void updateUI(List<MeasurementModel> measurements) {
+        adapter = new MeasurementsAdapter(measurements);
+        binding.recyclerView.setAdapter(adapter);
+
+        if (!measurements.isEmpty()) {
+            MeasurementModel latestMeasurement = measurements.get(0);
+
+            TextView temperatureTextView = binding.textTemperatureValue;
+            TextView humidityTextView = binding.textHumidityValue;
+            TextView lightTextView = binding.textLightValue;
+
+            temperatureTextView.setText(latestMeasurement.getTemperature());
+            humidityTextView.setText(latestMeasurement.getHumidity());
+            lightTextView.setText(latestMeasurement.getLight());
+        }
     }
 
     @Override

@@ -19,7 +19,7 @@ package com.example.greenhouse.utils;
         import com.example.greenhouse.model.MeasurementModel;
         import com.example.greenhouse.model.RecommendedMeasurementsModel;
         import com.example.greenhouse.model.NotificationModel;
-        import com.example.greenhouse.ui.viewmodel.NotificationsViewModel;
+        import com.example.greenhouse.viewmodel.NotificationsViewModel;
 
 public class AlertManager {
 
