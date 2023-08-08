@@ -1,19 +1,26 @@
-package com.example.greenhouse.ui.viewmodel;
+package com.example.greenhouse.viewmodel;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.greenhouse.model.MeasurementModel;
+import com.example.greenhouse.repository.MeasurementRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class GreenhouseComponentViewModel extends ViewModel {
 
+    private MeasurementRepository measurementRepository;
     private MutableLiveData<List<MeasurementModel>> measurementListLiveData;
 
     public GreenhouseComponentViewModel() {
+        measurementRepository = new MeasurementRepository();
         measurementListLiveData = new MutableLiveData<>();
         measurementListLiveData.setValue(new ArrayList<>());
     }
@@ -22,10 +29,20 @@ public class GreenhouseComponentViewModel extends ViewModel {
         return measurementListLiveData;
     }
 
-    public void addMeasurement(MeasurementModel measurement) {
-        List<MeasurementModel> measurements = measurementListLiveData.getValue();
-        measurements.add(measurement);
-        measurementListLiveData.setValue(measurements);
+    public void fetchMeasurements() {
+        measurementRepository.getAllMeasurements(new Callback<List<MeasurementModel>>() {
+            @Override
+            public void onResponse(Call<List<MeasurementModel>> call, Response<List<MeasurementModel>> response) {
+                if (response.isSuccessful()) {
+                    measurementListLiveData.setValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<MeasurementModel>> call, Throwable t) {
+
+            }
+        });
     }
 
     public void addSampleData() {
